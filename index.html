@@ -14,6 +14,34 @@
         .points { font-weight: bold; color: #FFD700; }
         .added-points { font-size: 14px; color: #FFD700; position: absolute; right: 10px; top: 25px; }
         select { padding: 5px; background: #444; color: white; border: none; border-radius: 5px; }
+        .category-box {
+        background: #222;
+        color: #fff;
+        padding: 15px;
+        margin: 10px auto;
+        border-radius: 10px;
+        text-align: center;
+        width: 80%;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .club-stat-box {
+        background: #333;
+        padding: 10px;
+        margin: 10px auto;
+        border-radius: 8px;
+        width: 90%;
+        box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.2);
+    }
+
+    .club-stat-box h4 {
+        margin-bottom: 5px;
+    }
+
+    .points {
+        color: #f39c12;
+        font-weight: bold;
+    }
     </style>
 </head>
 <body>
@@ -287,27 +315,27 @@
         warning.style.display = "block";
     }
 
-    // Update total stats display per club with yardages
+    // Update total stats display per category inside styled boxes
     const statsSection = document.getElementById("total-stats");
     statsSection.innerHTML = Object.keys(clubCategories).map(category => {
         let totalPower = categoryStats[category]['Power'] || 0;
         let yardages = yardageTable[totalPower] || {};
 
         return `
-            <div class="container" style="margin-top: 10px;">
-                <h3>${category}</h3>
+            <div class="category-box">
+                <h3>${category} Stats</h3>
                 ${clubCategories[category].map(club => {
                     let yardage = yardages[club] ? ` (${yardages[club]} yds)` : '';
                     return `
-                        <div class="attribute-row" style="display: flex; flex-direction: column; align-items: center; width: 80%; margin: auto; padding: 5px; border-bottom: 1px solid #444;">
-                            <div><strong>${club}${yardage}</strong></div>
+                        <div class="club-stat-box">
+                            <h4>${club}${yardage}</h4>
                             ${category === 'Putter' ? putterFittings.map(attr => {
                                 let value = Math.min(categoryStats[category][attr] || 0, 99);
-                                return `<div><strong>${attr}:</strong> <span class="points">${value}</span></div>`;
+                                return `<p><strong>${attr}:</strong> <span class="points">${value}</span></p>`;
                             }).join('') :
                             generalFittings.map(attr => {
                                 let value = Math.min(categoryStats[category][attr] || 0, 99);
-                                return `<div><strong>${attr}:</strong> <span class="points">${value}</span></div>`;
+                                return `<p><strong>${attr}:</strong> <span class="points">${value}</span></p>`;
                             }).join('')}
                         </div>
                     `;
