@@ -286,7 +286,7 @@
                     ${clubCategories[category].map(club => {
                         let yardage = yardages[club] ? ` (${yardages[club]} yds)` : '';
                         return `
-                            <div class="attribute-row" style="display: flex; justify-content: space-between; width: 80%; margin: auto; padding: 5px; border-bottom: 1px solid #444;">
+                            <div class="attribute-row" style="display: flex; flex-direction: column; align-items: center; width: 80%; margin: auto; padding: 5px; border-bottom: 1px solid #444;">
                                 <div><strong>${club}${yardage}</strong></div>
                                 ${category === 'Putter' ? putterAttributes.map(attr => {
                                     let value = Math.min(totalStats[attr] || 0, 99);
