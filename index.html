@@ -250,64 +250,112 @@
     }
 
     function updateTotalStats() {
-        let totalStats = {};
-        let warning = document.getElementById("warning");
-        warning.style.display = "none";
+    let baseStats = {};
+    let categoryStats = {};
+    let warning = document.getElementById("warning");
+    warning.style.display = "none";
 
-        // Fetch current base stats from attributes section (including slider values)
-        document.querySelectorAll(".slider").forEach(slider => {
-            let attr = slider.id.replace("-slider", "");
-            totalStats[attr] = parseInt(slider.value) || 0;
-        });
+    // Fetch current base stats from sliders (all categories start with base stats)
+    document.querySelectorAll(".slider").forEach(slider => {
+        let attr = slider.id.replace("-slider", "");
+        baseStats[attr] = parseInt(slider.value) || 0;
+    });
 
-        // Add points from fittings
-        document.querySelectorAll(".fitting-select").forEach(select => {
-            if (select.value) {
-                totalStats[select.value] = (totalStats[select.value] || 0) + 4;
+    // Initialize categoryStats based on baseStats
+    Object.keys(clubCategories).forEach(category => {
+        categoryStats[category] = { ...baseStats };
+    });
+
+    // Apply fittings per category
+    document.querySelectorAll(".fitting-select").forEach(select => {
+        if (select.value) {
+            let fittingStat = select.value;
+            let category = select.getAttribute("data-category"); // Get the category from data attribute
+
+            if (categoryStats[category]) {
+                categoryStats[category][fittingStat] = (categoryStats[category][fittingStat] || 0) + 4;
             }
-        });
-        
-        // Determine power level and corresponding yardages
-        let totalPower = totalStats['Power'] || 0;
-        let yardages = yardageTable[totalPower] || {};
-        
-        // Check for values exceeding 99
-        let exceedsLimit = Object.values(totalStats).some(value => value > 99);
-        if (exceedsLimit) {
-            warning.style.display = "block";
         }
-        
-        // Update total stats display per club with yardages
-        const statsSection = document.getElementById("total-stats");
-        statsSection.innerHTML = Object.keys(clubCategories).map(category => {
-            return `
-                <div class="container" style="margin-top: 10px;">
-                    <h3>${category}</h3>
-                    ${clubCategories[category].map(club => {
-                        let yardage = yardages[club] ? ` (${yardages[club]} yds)` : '';
-                        return `
-                            <div class="attribute-row" style="display: flex; flex-direction: column; align-items: center; width: 80%; margin: auto; padding: 5px; border-bottom: 1px solid #444;">
-                                <div><strong>${club}${yardage}</strong></div>
-                                ${category === 'Putter' ? putterAttributes.map(attr => {
-                                    let value = Math.min(totalStats[attr] || 0, 99);
-                                    return `<div><strong>${attr}:</strong> <span class="points">${value}</span></div>`;
-                                }).join('') :
-                                fittingAttributes.map(attr => {
-                                    let value = Math.min(totalStats[attr] || 0, 99);
-                                    return `<div><strong>${attr}:</strong> <span class="points">${value}</span></div>`;
-                                }).join('')}
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
-        }).join('');
+    });
+
+    // Check for values exceeding 99
+    let exceedsLimit = Object.values(categoryStats).some(stats =>
+        Object.values(stats).some(value => value > 99)
+    );
+
+    if (exceedsLimit) {
+        warning.style.display = "block";
     }
 
-    document.addEventListener("input", updateTotalStats);
-    document.addEventListener("change", updateTotalStats);
+    // Update total stats display per club with yardages
+    const statsSection = document.getElementById("total-stats");
+    statsSection.innerHTML = Object.keys(clubCategories).map(category => {
+        let totalPower = categoryStats[category]['Power'] || 0;
+        let yardages = yardageTable[totalPower] || {};
 
-    createFittingsSection();
+        return `
+            <div class="container" style="margin-top: 10px;">
+                <h3>${category}</h3>
+                ${clubCategories[category].map(club => {
+                    let yardage = yardages[club] ? ` (${yardages[club]} yds)` : '';
+                    return `
+                        <div class="attribute-row" style="display: flex; flex-direction: column; align-items: center; width: 80%; margin: auto; padding: 5px; border-bottom: 1px solid #444;">
+                            <div><strong>${club}${yardage}</strong></div>
+                            ${category === 'Putter' ? putterFittings.map(attr => {
+                                let value = Math.min(categoryStats[category][attr] || 0, 99);
+                                return `<div><strong>${attr}:</strong> <span class="points">${value}</span></div>`;
+                            }).join('') :
+                            generalFittings.map(attr => {
+                                let value = Math.min(categoryStats[category][attr] || 0, 99);
+                                return `<div><strong>${attr}:</strong> <span class="points">${value}</span></div>`;
+                            }).join('')}
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+    }).join('');
+}
+
+document.addEventListener("input", updateTotalStats);
+document.addEventListener("change", updateTotalStats);
+
+// Define fitting types
+const generalFittings = ["Power", "Contact", "Swing Path", "Correction", "Shaping", "Recovery", "Rhythm", "Transition"];
+const putterFittings = ["Putt Weight", "Putt Contact", "Putt Rhythm", "Putt Swing Path"];
+
+// Define the number of fitting slots per category
+const fittingSlots = {
+    "Driver": 5,
+    "Woods": 5,
+    "Hybrids": 5,
+    "Irons": 5,
+    "Wedges": 5,
+    "Putter": 4
+};
+
+function createFittingsSection() {
+    const fittingsSection = document.getElementById("fittings-section");
+    fittingsSection.innerHTML = Object.keys(clubCategories).map(category => {
+        let fittings = category === 'Putter' ? putterFittings : generalFittings;
+        let numSlots = fittingSlots[category];
+
+        return `
+            <div class="fitting-category">
+                <h3>${category} Fittings</h3>
+                ${Array.from({ length: numSlots }).map((_, index) => `
+                    <select class="fitting-select" data-category="${category}">
+                        <option value="">None</option>
+                        ${fittings.map(fitting => `<option value="${fitting}">${fitting}</option>`).join('')}
+                    </select>
+                `).join('')}
+            </div>
+        `;
+    }).join('');
+}
+
+createFittingsSection();
+
 </script>
 
 </body>
