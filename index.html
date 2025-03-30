@@ -12,7 +12,7 @@
         .attribute { width: 45%; text-align: left; position: relative; }
         .slider { width: 150px; }
         .points { font-weight: bold; color: #FFD700; }
-        .added-points { font-size: 14px; color: #00e1ff; position: absolute; right: 10px; top: 25px; }
+        .added-points { font-size: 14px; color: #00ff40; position: absolute; right: 10px; top: 25px; }
         select { padding: 5px; background: #444; color: white; border: none; border-radius: 5px; }
         .category-box {
         background: linear-gradient(to bottom, #2e2e2e, #1a1a1a);
@@ -58,6 +58,40 @@
         color: #02fd02; /* Teal color */
         font-weight: bold;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);    
+    }
+    .category-section {
+        margin-bottom: 10px;
+        width: 80%;
+        margin: auto;
+    }
+
+    /* Toggle Button for Each Category */
+    .category-toggle {
+        background: #353535;
+        color: rgb(255, 255, 255);
+        font-size: 18px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        transition: background 0.3s;
+    }
+
+    .category-toggle:hover {
+        background: #000000;
+    }
+
+    /* Hidden Content for Dropdown */
+    .category-content {
+        display: none;
+        background: #1a1a1a;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+        margin-top: 5px;
     }
     </style>
 </head>
@@ -315,7 +349,7 @@
     document.querySelectorAll(".fitting-select").forEach(select => {
         if (select.value) {
             let fittingStat = select.value;
-            let category = select.getAttribute("data-category"); // Get the category from data attribute
+            let category = select.getAttribute("data-category");
 
             if (categoryStats[category]) {
                 categoryStats[category][fittingStat] = (categoryStats[category][fittingStat] || 0) + 4;
@@ -332,34 +366,52 @@
         warning.style.display = "block";
     }
 
-    // Update total stats display per category inside styled boxes
+    // Update total stats display with collapsible sections
     const statsSection = document.getElementById("total-stats");
     statsSection.innerHTML = Object.keys(clubCategories).map(category => {
         let totalPower = categoryStats[category]['Power'] || 0;
         let yardages = yardageTable[totalPower] || {};
 
         return `
-            <div class="category-box">
-                <h3>${category} Stats</h3>
-                ${clubCategories[category].map(club => {
-                    let yardage = yardages[club] ? ` <span class="yardage">(${yardages[club]} yds)</span>` : '';
-                    return `
-                        <div class="club-stat-box">
-                            <h4>${club}${yardage}</h4>
-                            ${category === 'Putter' ? putterFittings.map(attr => {
-                                let value = Math.min(categoryStats[category][attr] || 0, 99);
-                                return `<p><strong>${attr}:</strong> <span class="points">${value}</span></p>`;
-                            }).join('') :
-                            generalFittings.map(attr => {
-                                let value = Math.min(categoryStats[category][attr] || 0, 99);
-                                return `<p><strong>${attr}:</strong> <span class="points">${value}</span></p>`;
-                            }).join('')}
-                        </div>
-                    `;
-                }).join('')}
+            <div class="category-section">
+                <button class="category-toggle" onclick="toggleCategory('${category}')">
+                    ${category} ▼
+                </button>
+                <div id="${category}-content" class="category-content">
+                    ${clubCategories[category].map(club => {
+                        let yardage = yardages[club] ? ` <span class="yardage">(${yardages[club]} yds)</span>` : '';
+                        return `
+                            <div class="club-stat-box">
+                                <h4>${club}${yardage}</h4>
+                                ${category === 'Putter' ? putterFittings.map(attr => {
+                                    let value = Math.min(categoryStats[category][attr] || 0, 99);
+                                    return `<p><strong>${attr}:</strong> <span class="points">${value}</span></p>`;
+                                }).join('') :
+                                generalFittings.map(attr => {
+                                    let value = Math.min(categoryStats[category][attr] || 0, 99);
+                                    return `<p><strong>${attr}:</strong> <span class="points">${value}</span></p>`;
+                                }).join('')}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
             </div>
         `;
     }).join('');
+}
+
+// Function to toggle each category dropdown
+function toggleCategory(category) {
+    let content = document.getElementById(`${category}-content`);
+    let button = document.querySelector(`button[onclick="toggleCategory('${category}')"]`);
+
+    if (content.style.display === "none" || content.style.display === "") {
+        content.style.display = "block";
+        button.innerHTML = `${category} ▲`;
+    } else {
+        content.style.display = "none";
+        button.innerHTML = `${category} ▼`;
+    }
 }
 
 document.addEventListener("input", updateTotalStats);
@@ -402,6 +454,7 @@ function createFittingsSection() {
 createFittingsSection();
 
 </script>
+<div id="total-stats"></div>
 
 </body>
 </html>
