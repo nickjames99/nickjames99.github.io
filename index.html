@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PGA 2K25 Character Builder made by Smiley
-    </title>
+    <title>PGA 2K25 Character Builder</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background-color: #1a1a1a; color: white; }
         .container { width: 60%; margin: auto; padding: 20px; background: #222; border-radius: 10px; }
@@ -28,7 +27,7 @@
             <option value="Magician">Magician</option>
             <option value="Powerhouse">Powerhouse</option>
         </select>
-        <p>Distribute 25 points per row.</p>
+        <p>Season 1</p>
         <div id="builder"></div>
     </div>
     
@@ -126,5 +125,123 @@
         
         updateAttributes();
     </script>
+
+<div class="container">
+    <h2>Club Fittings</h2>
+    <p>Select fittings for each club category. Each fitting adds +4 to the selected attribute.</p>
+    
+    <div id="fittings-section" style="display: flex; flex-direction: column; align-items: center; width: 100%; gap: 3px;"></div>
+    
+    <h3>Total Stats Per Club</h3>
+    <div id="total-stats"></div>
+    <p id="warning" style="color: red; display: none;"><strong>Warning: Attributes cannot exceed 99!</strong></p>
+</div>
+
+<script>
+    const clubCategories = {
+        'Driver': ['Driver'],
+        'Woods': ['3 Wood', '5 Wood', '7 Wood'],
+        'Hybrids': ['3 Hybrid', '5 Hybrid'],
+        'Irons': ['2 Iron', '3 Iron', '4 Iron', '5 Iron', '6 Iron', '7 Iron', '8 Iron', '9 Iron', 'Pitching Wedge'],
+        'Wedges': ['50 Deg', '52 Deg', '56 Deg', '60 Deg', '62 Deg'],
+        'Putter': ['Putter']
+    };
+    
+    const fittingAttributes = ['Power', 'Contact', 'Swing Path', 'Correction', 'Shaping', 'Recovery', 'Rhythm', 'Transition'];
+    const putterAttributes = ['Putt Weight', 'Putt Contact', 'Putt Rhythm', 'Putt Path'];
+    const maxFittings = { 'Putter': 4 };
+
+    function createFittingsSection() {
+        const section = document.getElementById("fittings-section");
+        section.innerHTML = "";
+        
+        Object.keys(clubCategories).forEach(category => {
+            let categoryDiv = document.createElement("div");
+            categoryDiv.className = "container";
+            categoryDiv.style.marginTop = "1x";
+            categoryDiv.style.textAlign = "center";
+            categoryDiv.innerHTML = `<h3>${category} Fittings</h3>`;
+            
+            let dropdownContainer = document.createElement("div");
+            dropdownContainer.style.display = "flex";
+            dropdownContainer.style.justifyContent = "center";
+            dropdownContainer.style.gap = "3px";
+            
+            let maxSlots = category === 'Putter' ? 4 : 5;
+            let attributes = category === 'Putter' ? putterAttributes : fittingAttributes;
+            
+            for (let i = 0; i < maxSlots; i++) {
+                let select = document.createElement("select");
+                select.className = "fitting-select";
+                select.dataset.club = category;
+                select.style.margin = "0 1px";
+                
+                select.innerHTML = `<option value="">None</option>` + attributes.map(attr => `<option value="${attr}">${attr}</option>`).join('');
+                
+                select.addEventListener("change", updateTotalStats);
+                dropdownContainer.appendChild(select);
+            }
+            
+            categoryDiv.appendChild(dropdownContainer);
+            section.appendChild(categoryDiv);
+        });
+    }
+
+    function updateTotalStats() {
+        let totalStats = {};
+        let warning = document.getElementById("warning");
+        warning.style.display = "none";
+
+        // Fetch current base stats from attributes section (including slider values)
+        document.querySelectorAll(".slider").forEach(slider => {
+            let attr = slider.id.replace("-slider", "");
+            totalStats[attr] = parseInt(slider.value) || 0;
+        });
+
+        // Add points from fittings
+        document.querySelectorAll(".fitting-select").forEach(select => {
+            if (select.value) {
+                totalStats[select.value] = (totalStats[select.value] || 0) + 4;
+            }
+        });
+        
+        // Check for values exceeding 99
+        let exceedsLimit = Object.values(totalStats).some(value => value > 99);
+        if (exceedsLimit) {
+            warning.style.display = "block";
+        }
+        
+        // Update total stats display per club
+        const statsSection = document.getElementById("total-stats");
+        statsSection.innerHTML = Object.keys(clubCategories).map(category => {
+            return `
+                <div class="container" style="margin-top: 10px;">
+                    <h3>${category}</h3>
+                    ${clubCategories[category].map(club => {
+                        return `
+                            <div class="attribute-row" style="display: flex; justify-content: space-between; width: 80%; margin: auto; padding: 5px; border-bottom: 1px solid #444;">
+                                <div><strong>${club}</strong></div>
+                                ${category === 'Putter' ? putterAttributes.map(attr => {
+                                    let value = Math.min(totalStats[attr] || 0, 99);
+                                    return `<div><strong>${attr}:</strong> <span class="points">${value}</span></div>`;
+                                }).join('') :
+                                fittingAttributes.map(attr => {
+                                    let value = Math.min(totalStats[attr] || 0, 99);
+                                    return `<div><strong>${attr}:</strong> <span class="points">${value}</span></div>`;
+                                }).join('')}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }).join('');
+    }
+
+    document.addEventListener("input", updateTotalStats);
+    document.addEventListener("change", updateTotalStats);
+
+    createFittingsSection();
+</script>
+
 </body>
 </html>
