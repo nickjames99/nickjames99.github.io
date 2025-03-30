@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PGA 2K25 Character Builder</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #1a1a1a; color: white; }
+        .container { width: 60%; margin: auto; padding: 20px; background: #222; border-radius: 10px; }
+        h1, p { margin: 10px 0; }
+        .attribute-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #444; }
+        .attribute { width: 45%; text-align: left; position: relative; }
+        .slider { width: 150px; }
+        .points { font-weight: bold; color: #FFD700; }
+        .added-points { font-size: 14px; color: #FFD700; position: absolute; right: 10px; top: 25px; }
+        select { padding: 5px; background: #444; color: white; border: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PGA 2K25 Character Builder</h1>
+        <label for="archetype">Archetype: </label>
+        <select id="archetype" onchange="updateAttributes()">
+            <option value="Technician">Technician</option>
+            <option value="Sculptor">Sculptor</option>
+            <option value="Greenskeeper">Greenskeeper</option>
+            <option value="Magician">Magician</option>
+            <option value="Powerhouse">Powerhouse</option>
+        </select>
+        <p>Distribute 25 points per row.</p>
+        <div id="builder"></div>
+    </div>
+    
+    <script>
+        const archetypes = {
+            'Technician': [
+                ['Power', 'Contact', 42, 75],
+                ['Swing Path', 'Correction', 70, 67],
+                ['Shaping', 'Recovery', 57, 48],
+                ['Rhythm', 'Transition', 59, 64],
+                ['Putt Weight', 'Putt Contact', 55, 44],
+                ['Putt Rhythm', 'Putt Path', 53, 46]
+            ],
+            'Sculptor': [
+                ['Power', 'Contact', 67, 64],
+                ['Swing Path', 'Correction', 48, 70],
+                ['Shaping', 'Recovery', 75, 59],
+                ['Rhythm', 'Transition', 53, 57],
+                ['Putt Weight', 'Putt Contact', 44, 46],
+                ['Putt Rhythm', 'Putt Path', 42, 55]
+            ],
+            'Greenskeeper': [
+                ['Power', 'Contact', 48, 57],
+                ['Swing Path', 'Correction', 55, 59],
+                ['Shaping', 'Recovery', 53, 42],
+                ['Rhythm', 'Transition', 46, 44],
+                ['Putt Weight', 'Putt Contact', 75, 67],
+                ['Putt Rhythm', 'Putt Path', 70, 64]
+            ],
+            'Magician': [
+                ['Power', 'Contact', 59, 70],
+                ['Swing Path', 'Correction', 57, 53],
+                ['Shaping', 'Recovery', 55, 75],
+                ['Rhythm', 'Transition', 64, 67],
+                ['Putt Weight', 'Putt Contact', 42, 46],
+                ['Putt Rhythm', 'Putt Path', 44, 48]
+            ],
+            'Powerhouse': [
+                ['Power', 'Contact', 75, 42],
+                ['Swing Path', 'Correction', 46, 57],
+                ['Shaping', 'Recovery', 59, 64],
+                ['Rhythm', 'Transition', 67, 70],
+                ['Putt Weight', 'Putt Contact', 53, 48],
+                ['Putt Rhythm', 'Putt Path', 55, 44]
+            ]
+        };
+        
+        function updateAttributes() {
+            const selectedArchetype = document.getElementById("archetype").value;
+            createAttributeBuilder(archetypes[selectedArchetype]);
+        }
+        
+        function createAttributeBuilder(attributes) {
+            const container = document.getElementById("builder");
+            container.innerHTML = "";
+            
+            attributes.forEach(([attr1, attr2, base1, base2]) => {
+                let row = document.createElement("div");
+                row.className = "attribute-row";
+                
+                row.innerHTML = `
+                    <div class="attribute">
+                        <label>${attr1}: <span class="points" id="${attr1}-points">${base1}</span></label>
+                        <span class="added-points" id="${attr1}-added">(+0)</span><br>
+                        <input type="range" min="${base1}" max="${Math.min(99, base1 + 25)}" value="${base1}" class="slider" id="${attr1}-slider">
+                    </div>
+                    <div class="attribute">
+                        <label>${attr2}: <span class="points" id="${attr2}-points">${base2}</span></label>
+                        <span class="added-points" id="${attr2}-added">(+0)</span><br>
+                        <input type="range" min="${base2}" max="${Math.min(99, base2 + 25)}" value="${base2}" class="slider" id="${attr2}-slider">
+                    </div>
+                `;
+                
+                container.appendChild(row);
+                
+                const sliders = [document.getElementById(`${attr1}-slider`), document.getElementById(`${attr2}-slider`)];
+                const pointDisplays = [document.getElementById(`${attr1}-points`), document.getElementById(`${attr2}-points`)];
+                const addedDisplays = [document.getElementById(`${attr1}-added`), document.getElementById(`${attr2}-added`)];
+                
+                sliders.forEach((slider, index) => {
+                    slider.oninput = () => {
+                        let otherIndex = index === 0 ? 1 : 0;
+                        let totalAdded = (parseInt(sliders[0].value) - base1) + (parseInt(sliders[1].value) - base2);
+                        if (totalAdded > 25) {
+                            slider.value = parseInt(slider.value) - (totalAdded - 25);
+                        }
+                        let baseValue = [base1, base2][index];
+                        let addedPoints = parseInt(slider.value) - baseValue;
+                        pointDisplays[index].innerText = slider.value;
+                        addedDisplays[index].innerText = `(+${addedPoints})`;
+                    };
+                });
+            });
+        }
+        
+        updateAttributes();
+    </script>
+</body>
+</html>
