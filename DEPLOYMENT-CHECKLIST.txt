@@ -1,0 +1,11 @@
+DEPLOYMENT CHECKLIST
+
+[ ] Upload this project to the repository root
+[ ] Run `npm install` locally once and commit package-lock.json
+[ ] Test `npm run build`
+[ ] Test `npm run preview`
+[ ] GitHub Settings > Pages > Source = GitHub Actions
+[ ] Push to main
+[ ] Verify Randomize, Copy, Reset, Decode, color inputs, species selector, and preview
+[ ] Verify browser DevTools does not expose source maps
+[ ] Never commit API keys or secrets; GitHub Pages is fully public client-side code

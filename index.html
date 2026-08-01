@@ -1,0 +1,309 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Skin Code Editor</title><style>:root{color-scheme:dark;--bg:#070812;--bg2:#0b0d18;--panel:#151221;--panel2:#1c1729;--panel3:#231b35;--line:#493265;--line2:#6a3f91;--text:#f7f2ff;--muted:#8f82a5;--purple:#a855f7;--pink:#e879f9;--blue:#55c9ff;--gold:#f5d184;--green:#5ee89c;--danger:#fb7185;--shadow:0 20px 55px rgba(0,0,0,.38);}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;padding:22px;color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 10% 0%,rgba(168,85,247,.13),transparent 24%),radial-gradient(circle at 100% 100%,rgba(65,200,255,.08),transparent 26%),linear-gradient(180deg,#05060c 0%,#090b15 48%,#05060d 100%);}button,input,textarea{font:inherit}.app{width:min(1180px,100%);margin:auto;}.top-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:16px;}.top-actions button{min-width:220px;}.layout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);gap:16px;align-items:start;}.panel{border:1px solid rgba(132,82,177,.42);border-radius:22px;background:linear-gradient(145deg,rgba(27,22,40,.98),rgba(15,13,25,.99));box-shadow:var(--shadow);}.editor-panel{padding:18px;}.panel-heading{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-size:22px;font-weight:950;letter-spacing:-.025em;}.panel-icon{width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(168,85,247,.45);border-radius:50%;color:#d67aff;background:#14101e;box-shadow:0 0 24px rgba(168,85,247,.12);}.color-grid{display:grid;gap:12px;}.color-card{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;padding:14px;min-height:108px;border:1px solid rgba(255,255,255,.07);border-radius:17px;background:linear-gradient(145deg,rgba(20,16,30,.98),rgba(12,11,20,.98));transition:transform .16s,border-color .16s;}.color-card:hover{transform:translateY(-1px);border-color:rgba(168,85,247,.38);}.color-info{display:grid;align-content:center;gap:8px;}.color-name{font-size:17px;font-weight:950;}.hex{display:none}.color-control{display:grid;grid-template-columns:minmax(135px,1fr) 150px;grid-template-rows:auto 48px;gap:7px 12px;align-items:center;}.color-control-label{justify-self:center;color:#8e81a4;font:800 9px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.11em;text-transform:uppercase;}.picker-label{grid-column:1}.hex-label{grid-column:2}.color-chip{display:none}input[type=color]{grid-column:1;width:100%;height:48px;padding:0;border:1px solid rgba(168,85,247,.30);border-radius:12px;background:transparent;overflow:hidden;cursor:pointer;-webkit-appearance:none;appearance:none;}input[type=color]::-webkit-color-swatch-wrapper{padding:0}input[type=color]::-webkit-color-swatch{border:0;border-radius:11px}input[type=color]::-moz-color-swatch{border:0;border-radius:11px}.hex-input{grid-column:2;width:100%;height:48px;padding:0 14px;border:1px solid rgba(255,255,255,.10);border-radius:12px;outline:none;color:#fff;background:#17131f;font:800 13px ui-monospace,SFMono-Regular,Consolas,monospace;}.hex-input:focus{border-color:rgba(168,85,247,.70);box-shadow:0 0 0 4px rgba(168,85,247,.10);}.side{display:grid;gap:16px;}.code-panel{padding:18px;}.code-label{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;}.code-label label{font-size:20px;line-height:1.15;font-weight:950;}.code-label span{max-width:150px;color:#8e81a4;text-align:right;font:800 9px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.10em;text-transform:uppercase;}textarea,input[type=text]{width:100%;border:1px solid rgba(255,255,255,.10);border-radius:14px;outline:none;color:#f6f2fb;background:#0e0c15;padding:14px;font:700 12px ui-monospace,SFMono-Regular,Consolas,monospace;}textarea{min-height:260px;resize:vertical;word-break:break-all;}input[type=text]{height:66px;}textarea:focus,input[type=text]:focus{border-color:rgba(168,85,247,.68);box-shadow:0 0 0 4px rgba(168,85,247,.10);}.controls{display:grid;gap:10px;margin-top:14px;}button{min-height:48px;border:1px solid rgba(168,85,247,.36);border-radius:13px;padding:0 18px;color:#f9f4ff;background:linear-gradient(180deg,#2a203d,#1b1727);font-weight:950;cursor:pointer;transition:transform .15s,filter .15s,border-color .15s;}button:hover{transform:translateY(-1px);filter:brightness(1.08);border-color:rgba(192,132,252,.65);}button:active{transform:translateY(1px)}#randomBtn{background:linear-gradient(100deg,#2c173a,#5b247b);color:#ef8cff;}#copyHexBtn{border-color:rgba(65,200,255,.42);color:#59cbff;background:linear-gradient(180deg,#122239,#101726);}#copyBtn{border:0;color:#1b1223;background:linear-gradient(100deg,#f4cf7c 0%,#e3a0ed 48%,#5acbff 100%);}#resetBtn{color:#d7c8df;}#decodeBtn{min-height:58px;}.status{min-height:22px;margin-top:12px;color:var(--green);font-size:12px;}@media(max-width:900px){.layout{grid-template-columns:1fr}}@media(max-width:620px){body{padding:10px}.color-card{grid-template-columns:1fr}.color-control{grid-template-columns:1fr}.picker-label,.hex-label,input[type=color],.hex-input{grid-column:1}textarea{min-height:180px}.top-actions button{width:100%}}.preview-panel{margin-top:16px;padding:18px;}.preview-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;}.preview-title{margin:0;font-size:20px;font-weight:950;}.preview-controls{display:flex;gap:8px;flex-wrap:wrap;}.preview-controls select,.preview-controls button{min-height:40px;border:1px solid rgba(168,85,247,.36);border-radius:12px;padding:0 12px;color:#f6f2fb;background:#17131f;font-weight:800;}.pattern-tabs{display:flex;gap:7px}.pattern-tab{min-width:42px;padding:0;}.pattern-tab.active{border-color:#c084fc;background:linear-gradient(180deg,#61308b,#37204e);}.preview-stage{position:relative;min-height:410px;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:17px;background:radial-gradient(ellipse at 50% 75%,rgba(86,63,111,.18),transparent 46%),linear-gradient(180deg,#0b0c14,#080a12);}#dinoPreview{width:100%;height:auto;display:block;}.preview-note{margin-top:10px;color:#81768f;font-size:11px;}@media(max-width:620px){.preview-head{align-items:flex-start;flex-direction:column}.preview-stage{min-height:260px}}.species-field{display:grid;gap:7px;margin-top:12px;}.species-field label{color:#9d91ad;font:800 9px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.10em;text-transform:uppercase;}.species-field select{width:100%;min-height:46px;padding:0 12px;border:1px solid rgba(168,85,247,.34);border-radius:12px;outline:none;color:#f7f2ff;background:#17131f;font-weight:800;}.species-field select:focus{border-color:#c084fc;box-shadow:0 0 0 4px rgba(168,85,247,.10);}.creator-credit{display:flex;justify-content:center;align-items:center;margin:18px 0 6px;padding:18px 0 10px;font-family:Inter,sans-serif;font-size:18px;font-weight:600;letter-spacing:.04em;color:#a78bfa;opacity:.95;user-select:none;}.creator-credit strong{background:linear-gradient(90deg,#FFD67A 0%,#F8B6D8 35%,#C5A3FF 70%,#61D4FF 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent;font-weight:800;}.creator-credit::before,.creator-credit::after{content:"✦";color:#8b5cf6;margin:0 12px;font-size:14px;}</style>
+<style id="studio-layout-overrides">
+body{
+  padding:14px;
+  overflow-x:hidden;
+}
+.app{
+  width:min(1880px,100%);
+}
+.top-actions{
+  padding-left:2px;
+  margin-bottom:12px;
+}
+.layout{
+  display:grid;
+  grid-template-columns:minmax(360px,430px) minmax(500px,1fr) minmax(360px,430px);
+  gap:14px;
+  align-items:start;
+}
+.editor-panel,
+.preview-panel,
+.side{
+  min-width:0;
+}
+.editor-panel{
+  position:sticky;
+  top:14px;
+  max-height:calc(100vh - 28px);
+  overflow:auto;
+  scrollbar-width:thin;
+}
+.color-grid{
+  gap:9px;
+}
+.color-card{
+  min-height:86px;
+  padding:11px;
+  grid-template-columns:92px minmax(0,1fr);
+}
+.color-name{
+  font-size:15px;
+}
+.color-control{
+  grid-template-columns:minmax(110px,1fr) 116px;
+  grid-template-rows:auto 42px;
+  gap:5px 9px;
+}
+input[type=color],
+.hex-input{
+  height:42px;
+}
+.hex-input{
+  padding:0 10px;
+  font-size:11px;
+}
+.preview-panel{
+  margin-top:0;
+  padding:14px;
+  position:sticky;
+  top:14px;
+  min-height:calc(100vh - 28px);
+  display:flex;
+  flex-direction:column;
+}
+.preview-head{
+  margin-bottom:10px;
+}
+.preview-title{
+  font-size:18px;
+}
+.preview-controls{
+  justify-content:flex-end;
+}
+.preview-controls select,
+.preview-controls button{
+  min-height:36px;
+  padding:0 10px;
+  font-size:11px;
+}
+.preview-stage{
+  flex:1;
+  min-height:0;
+  height:calc(100vh - 132px);
+  border-radius:15px;
+}
+#dinoPreview{
+  width:100%;
+  height:100%;
+  max-width:none;
+  object-fit:contain;
+}
+.side{
+  position:sticky;
+  top:14px;
+  max-height:calc(100vh - 28px);
+  overflow:auto;
+  scrollbar-width:thin;
+}
+.code-panel{
+  padding:15px;
+}
+textarea{
+  min-height:195px;
+}
+.creator-credit{
+  margin-top:10px;
+  padding-top:10px;
+}
+@media(max-width:1280px){
+  .layout{
+    grid-template-columns:minmax(330px,400px) minmax(420px,1fr) minmax(330px,390px);
+  }
+  .color-card{
+    grid-template-columns:80px minmax(0,1fr);
+  }
+  .color-control{
+    grid-template-columns:minmax(100px,1fr) 105px;
+  }
+}
+@media(max-width:1050px){
+  body{padding:10px}
+  .layout{
+    grid-template-columns:minmax(320px,390px) minmax(420px,1fr);
+  }
+  .side{
+    grid-column:1/-1;
+    position:static;
+    max-height:none;
+    overflow:visible;
+    grid-template-columns:1fr 1fr;
+  }
+  .editor-panel,
+  .preview-panel{
+    position:static;
+    max-height:none;
+  }
+  .preview-panel{
+    min-height:680px;
+  }
+  .preview-stage{
+    height:560px;
+  }
+}
+@media(max-width:760px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+  .side{
+    grid-column:auto;
+    grid-template-columns:1fr;
+  }
+  .preview-panel{
+    min-height:auto;
+  }
+  .preview-stage{
+    height:380px;
+    min-height:380px;
+  }
+  .editor-panel,
+  .side{
+    overflow:visible;
+  }
+}
+</style>
+
+<style id="studio-layout-fixes">
+/* Keep all three main columns aligned to the same bottom edge. */
+.layout{
+  align-items:stretch;
+}
+.editor-panel,
+.preview-panel,
+.side{
+  position:static;
+  top:auto;
+  max-height:none;
+  height:100%;
+  overflow:visible;
+}
+.side{
+  align-content:start;
+}
+.preview-panel{
+  min-height:0;
+}
+.preview-stage{
+  flex:1;
+  height:auto;
+  min-height:360px;
+}
+
+/* Give the labels room and make the pasted HEX field narrower. */
+.color-card{
+  grid-template-columns:88px minmax(0,1fr);
+}
+.color-control{
+  grid-template-columns:minmax(92px,1fr) 94px;
+  gap:5px 8px;
+}
+.hex-input{
+  width:94px;
+  min-width:0;
+  padding:0 8px;
+  font-size:10px;
+}
+.color-control-label{
+  white-space:nowrap;
+  font-size:8px;
+  letter-spacing:.08em;
+}
+.hex-label{
+  justify-self:center;
+}
+
+@media(max-width:1280px){
+  .color-card{
+    grid-template-columns:76px minmax(0,1fr);
+  }
+  .color-control{
+    grid-template-columns:minmax(82px,1fr) 88px;
+  }
+  .hex-input{
+    width:88px;
+  }
+}
+@media(max-width:1050px){
+  .editor-panel,
+  .preview-panel,
+  .side{
+    height:auto;
+  }
+}
+</style>
+
+<style id="hex-control-balance-fix">
+.color-control{
+  grid-template-columns:minmax(120px,1fr) 112px !important;
+  grid-template-rows:auto 48px !important;
+  gap:7px 10px !important;
+  align-items:stretch !important;
+}
+.color-control-label{
+  display:block !important;
+  width:100%;
+  text-align:center;
+  white-space:nowrap;
+  overflow:visible;
+  line-height:1.1;
+}
+.picker-label{
+  grid-column:1 !important;
+  grid-row:1 !important;
+}
+.hex-label{
+  grid-column:2 !important;
+  grid-row:1 !important;
+}
+input[type=color]{
+  grid-column:1 !important;
+  grid-row:2 !important;
+  width:100% !important;
+  height:48px !important;
+  min-height:48px !important;
+  border-radius:12px !important;
+}
+.hex-input{
+  grid-column:2 !important;
+  grid-row:2 !important;
+  width:112px !important;
+  height:48px !important;
+  min-height:48px !important;
+  padding:0 11px !important;
+  border-radius:12px !important;
+  font-size:11px !important;
+}
+@media(max-width:1280px){
+  .color-control{
+    grid-template-columns:minmax(104px,1fr) 104px !important;
+  }
+  .hex-input{
+    width:104px !important;
+  }
+}
+@media(max-width:620px){
+  .color-control{
+    grid-template-columns:1fr !important;
+    grid-template-rows:auto 48px auto 48px !important;
+  }
+  .picker-label{
+    grid-column:1 !important;
+    grid-row:1 !important;
+  }
+  input[type=color]{
+    grid-column:1 !important;
+    grid-row:2 !important;
+  }
+  .hex-label{
+    grid-column:1 !important;
+    grid-row:3 !important;
+    margin-top:4px;
+  }
+  .hex-input{
+    grid-column:1 !important;
+    grid-row:4 !important;
+    width:100% !important;
+  }
+}
+</style>
+</head><body><div class="app"><div class="top-actions"><button id="randomBtn">◇ Randomize All Colors</button><button id="copyHexBtn">▣ Copy All HEX</button></div><div class="layout"><section class="panel editor-panel"><h2 class="panel-heading"><span class="panel-icon">◌</span>Color Editor</h2><div id="pickers" class="color-grid"></div></section><section class="panel preview-panel"><div class="preview-head"><div><h2 class="preview-title">Stego Preview (Roughly - Not Exact but close enough :P)</h2><div class="preview-note">Pattern B</div></div><div class="preview-controls"><select id="dinoSelect" aria-label="Preview dinosaur" disabled><option value="stego">Stego Preview</option></select><div class="pattern-tabs"><button class="pattern-tab active" type="button" disabled>Pattern B</button></div><button id="originalPreviewBtn">Hold original</button><button id="savePreviewBtn">Save PNG</button></div></div><div class="preview-stage"><canvas id="dinoPreview"></canvas></div></section><aside class="side"><section class="panel code-panel"><div class="code-label"><label for="codeOut">Generated code</label><span>Updates automatically</span></div><textarea id="codeOut" spellcheck="false" readonly></textarea><div class="species-field"><label for="speciesSelect">Code species</label><select id="speciesSelect"><option value="0">Allosaurus</option><option value="1">Beipiaosaurus</option><option value="2">Carnotaurus</option><option value="3">Ceratosaurus</option><option value="4">Deinosuchus</option><option value="5">Diabloceratops</option><option value="6">Dilophosaurus</option><option value="7">Dryosaurus</option><option value="8">Gallimimus</option><option value="9">Herrerasaurus</option><option value="10">Hypsilophodon</option><option value="20">Kentrosaurus</option><option value="11">Maiasaura</option><option value="12">Omniraptor</option><option value="13">Pachycephalosaurus</option><option value="14">Pteranodon</option><option value="15" selected>Stegosaurus</option><option value="16">Tenontosaurus</option><option value="17">Triceratops</option><option value="18">Troodon</option><option value="19">Tyrannosaurus</option></select></div><div class="controls"><button id="copyBtn">Copy code</button><button id="resetBtn">Reset ↻</button></div><div id="copyStatus" class="status" aria-live="polite"></div></section><section class="panel code-panel"><div class="code-label"><label for="codeIn">Paste an existing code<br></label><span>Paste an ISL1 code</span></div><input id="codeIn" type="text" placeholder="ISL1...." spellcheck="false"><div class="controls"><button id="decodeBtn">Enter Pasted code</button></div><div id="decodeStatus" class="status" aria-live="polite"></div><div class="creator-credit">Made by <strong>&nbsp;HELPMEッ</strong></div></section></aside></div></div><script type="module" src="/src/app.js"></script></body></html>

@@ -1,0 +1,17 @@
+{
+  "name": "isle-skin-code-editor",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:raw": "vite build",
+    "protect": "node scripts/protect-build.mjs",
+    "build": "npm run build:raw && npm run protect",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.0.0",
+    "javascript-obfuscator": "^4.1.1"
+  }
+}
