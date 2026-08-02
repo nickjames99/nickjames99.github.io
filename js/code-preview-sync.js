@@ -22,6 +22,7 @@
     "15": "stego",
     "16": "tenonto",
     "18": "troodon",
+    "19": "trex",
     "20": "kentro"
   };
 
@@ -58,6 +59,7 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 
 

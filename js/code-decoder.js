@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    trex: ["A", "B", "C"],
     maia: ["A", "B", "C"],
     dryo: ["A", "B", "C"],
     dilo: ["A", "B", "C"],
@@ -199,6 +200,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

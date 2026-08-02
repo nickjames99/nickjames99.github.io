@@ -197,7 +197,8 @@
       omniraptor: "12",
       stego: "15",
       tenonto: "16",
-      troodon: "18"
+      troodon: "18",
+      trex: "19"
     }[dino.value];
 
     // Keep the generated-code species synchronized with the dinosaur preview.
@@ -336,6 +337,7 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
 
 

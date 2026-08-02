@@ -98,7 +98,7 @@
     Tyrannosaurus: {
       speciesId: "19",
       prefix: "AQET",
-      previewId: "stego"
+      previewId: "trex"
     },
     Kentrosaurus: {
       speciesId: "20",
@@ -190,6 +190,7 @@
       "Stegosaurus",
       "Tenontosaurus",
       "Troodon",
+      "Tyrannosaurus",
       "Kentrosaurus",
       "Maiasaura"
     ]);
@@ -326,6 +327,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 
