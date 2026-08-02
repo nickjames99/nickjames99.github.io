@@ -18,7 +18,7 @@
     Ceratosaurus: {
       speciesId: "3",
       prefix: "AQED",
-      previewId: "stego"
+      previewId: "cerato"
     },
     Deinosuchus: {
       speciesId: "4",
@@ -179,6 +179,7 @@
     if (!detected) return false;
 
     const dedicatedPreviewSpecies = new Set([
+      "Ceratosaurus",
       "Omniraptor",
       "Stegosaurus",
       "Tenontosaurus",
@@ -318,3 +319,4 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
