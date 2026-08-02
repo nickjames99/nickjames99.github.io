@@ -4,8 +4,15 @@
   const decodeStatus = document.getElementById("decodeStatus");
   const dinosaurSelect = document.getElementById("dinoSelect");
   const patternSelect = document.getElementById("patternSelect");
+  const speciesSelect = document.getElementById("speciesSelect");
 
-  if (!codeInput || !decodeButton || !dinosaurSelect || !patternSelect) return;
+  if (
+    !codeInput ||
+    !decodeButton ||
+    !dinosaurSelect ||
+    !patternSelect ||
+    !speciesSelect
+  ) return;
 
   const SPECIES_BY_ID = {
     0: "Allosaurus",
@@ -29,6 +36,30 @@
     18: "Troodon",
     19: "Tyrannosaurus",
     20: "Kentrosaurus"
+  };
+
+  const PREVIEW_BY_SPECIES_ID = {
+    0: "allo",
+    1: "beipi",
+    2: "carno",
+    3: "cerato",
+    4: "deino",
+    5: "dibble",
+    6: "dilo",
+    7: "dryo",
+    8: "galli",
+    9: "herra",
+    10: "hypsi",
+    11: "maia",
+    12: "omniraptor",
+    13: "pachy",
+    14: "ptera",
+    15: "stego",
+    16: "tenonto",
+    17: "trike",
+    18: "troodon",
+    19: "trex",
+    20: "kentro"
   };
 
   const PATTERN_BY_BYTE = {
@@ -156,12 +187,35 @@
         );
       }
 
-      // This changes only the seven editor colors. It intentionally does not
-      // change the selected live-preview dinosaur, sex, or preview pattern.
+      const previewId = PREVIEW_BY_SPECIES_ID[bytes[2]];
+      if (!previewId) {
+        throw new Error(`No live preview is registered for ${speciesName}.`);
+      }
+
+      // Select the decoded dinosaur first. Several preview renderers refresh
+      // their controls when this event fires, so colors are applied afterward.
+      speciesSelect.value = String(bytes[2]);
+      dinosaurSelect.value = previewId;
+      dinosaurSelect.dispatchEvent(new Event("change", { bubbles: true }));
+
+      // Rebuild the pattern options immediately so D/E codes also work when
+      // the previously selected dinosaur only exposed Patterns A-C.
+      updatePatternOptions(patternName);
+
       applyDecodedColors(colors);
 
+      // A few legacy renderers finish their species/pattern work on the next
+      // frame. Reapply the decoded colors once after those updates so they
+      // cannot be replaced by a renderer's defaults.
+      requestAnimationFrame(() => {
+        applyDecodedColors(colors);
+      });
+      setTimeout(() => {
+        applyDecodedColors(colors);
+      }, 50);
+
       decodeStatus.textContent =
-        `${speciesName} Â· Pattern ${patternName} â€” 7 colors loaded`;
+        `${speciesName} · Pattern ${patternName} — preview and 7 colors loaded`;
       decodeStatus.style.color = "var(--green)";
 
       // Let existing preview/generator listeners finish updating.
@@ -177,11 +231,12 @@
     }
   }
 
-  function updatePatternOptions() {
+  function updatePatternOptions(preferredPattern = patternSelect.value) {
     const available =
       AVAILABLE_PREVIEW_PATTERNS[dinosaurSelect.value] || ["A", "B", "C"];
-    const previous = patternSelect.value;
-    const next = available.includes(previous) ? previous : available[0];
+    const next = available.includes(preferredPattern)
+      ? preferredPattern
+      : available[0];
 
     patternSelect.replaceChildren(
       ...available.map(pattern => {
@@ -202,12 +257,11 @@
 
   // Keep the preview pattern list limited to what the selected dinosaur has.
   dinosaurSelect.addEventListener("change", () => {
-    requestAnimationFrame(updatePatternOptions);
+    requestAnimationFrame(() => updatePatternOptions());
   });
 
   updatePatternOptions();
 })();
-
 
 
 

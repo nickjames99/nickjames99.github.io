@@ -47,7 +47,7 @@
 
     // Keep the current pattern when it is valid. If the decoded code or another
     // handler leaves it empty, fall back to Pattern B.
-    const validPatterns = new Set(["A", "B", "C"]);
+    const validPatterns = new Set(["A", "B", "C", "D", "E"]);
     if (!validPatterns.has(patternSelect.value)) {
       patternSelect.value = "B";
     }
