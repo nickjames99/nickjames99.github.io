@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    allo: ["A", "B", "C"],
     carno: ["A", "B", "C", "D"],
     hypsi: ["A", "B", "C"],
     kentro: ["A", "B", "C"],
@@ -194,6 +195,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

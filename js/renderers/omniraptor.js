@@ -163,6 +163,7 @@
 
   dino.addEventListener("change",()=>{
     const previewSpeciesId = {
+      allo: "0",
       carno: "2",
       cerato: "3",
       hypsi: "10",
@@ -271,6 +272,7 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
 
 
