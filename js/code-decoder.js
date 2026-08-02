@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    herra: ["A", "B", "C", "D"],
     pachy: ["A", "B", "C", "D"],
     trex: ["A", "B", "C"],
     maia: ["A", "B", "C"],
@@ -201,6 +202,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

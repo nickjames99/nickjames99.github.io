@@ -48,7 +48,7 @@
     Herrerasaurus: {
       speciesId: "9",
       prefix: "AQEJ",
-      previewId: "stego"
+      previewId: "herra"
     },
     Hypsilophodon: {
       speciesId: "10",
@@ -185,6 +185,7 @@
       "Ceratosaurus",
       "Dilophosaurus",
       "Dryosaurus",
+      "Herrerasaurus",
       "Hypsilophodon",
       "Omniraptor",
       "Pachycephalosaurus",
@@ -328,6 +329,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 
