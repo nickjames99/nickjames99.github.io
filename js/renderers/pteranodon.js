@@ -199,6 +199,8 @@
       updateControls();
       scheduleRender(0);
     } else {
+      viewSelect.hidden = true;
+      viewSelect.disabled = true;
       canvas.style.setProperty("display", "none", "important");
     }
   });
