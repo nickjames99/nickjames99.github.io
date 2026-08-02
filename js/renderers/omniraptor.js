@@ -192,6 +192,7 @@
       dilo: "6",
       dryo: "7",
       hypsi: "10",
+      maia: "11",
       kentro: "20",
       omniraptor: "12",
       stego: "15",
@@ -335,6 +336,7 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
 
 

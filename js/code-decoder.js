@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    maia: ["A", "B", "C"],
     dryo: ["A", "B", "C"],
     dilo: ["A", "B", "C"],
     beipi: ["A", "B", "C"],
@@ -198,6 +199,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

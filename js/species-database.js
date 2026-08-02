@@ -58,7 +58,7 @@
     Maiasaura: {
       speciesId: "11",
       prefix: "AQEL",
-      previewId: "stego"
+      previewId: "maia"
     },
     Omniraptor: {
       speciesId: "12",
@@ -190,7 +190,8 @@
       "Stegosaurus",
       "Tenontosaurus",
       "Troodon",
-      "Kentrosaurus"
+      "Kentrosaurus",
+      "Maiasaura"
     ]);
     const hasDedicatedPreview = dedicatedPreviewSpecies.has(detected.name);
 
@@ -325,6 +326,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 

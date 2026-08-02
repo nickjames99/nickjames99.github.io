@@ -17,6 +17,7 @@
     "6": "dilo",
     "7": "dryo",
     "10": "hypsi",
+    "11": "maia",
     "12": "omniraptor",
     "15": "stego",
     "16": "tenonto",
@@ -57,6 +58,7 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 
 
