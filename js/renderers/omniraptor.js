@@ -162,7 +162,14 @@
   }
 
   dino.addEventListener("change",()=>{
-    const previewSpeciesId=dino.value==="omniraptor"?"12":dino.value==="kentro"?"20":dino.value==="tenonto"?"16":dino.value==="troodon"?"18":"15";
+    const previewSpeciesId = {
+      cerato: "3",
+      kentro: "20",
+      omniraptor: "12",
+      stego: "15",
+      tenonto: "16",
+      troodon: "18"
+    }[dino.value];
 
     // Keep the generated-code species synchronized with the dinosaur preview.
     if(species && species.value!==previewSpeciesId){
@@ -259,6 +266,7 @@
     preparePattern("C",patternCBase,patternCMasks);
 
     if(species?.value==="12")choose("omniraptor");
-    else choose("stego");
+    else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
