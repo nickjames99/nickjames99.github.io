@@ -215,6 +215,8 @@
       updateControls();
       scheduleRender(0);
       setTimeout(() => { updateControls(); scheduleRender(0); }, 60);
+    } else {
+      canvas.style.setProperty("display", "none", "important");
     }
   });
 
@@ -253,3 +255,4 @@
 
   if (dinosaurSelect.value === "cerato") scheduleRender(0);
 })();
+
