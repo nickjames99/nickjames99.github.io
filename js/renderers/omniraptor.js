@@ -169,7 +169,7 @@
     // The Omniraptor renderer owns only the Omniraptor canvas.
     // The dedicated Stego renderer owns all Stego A/B/C canvases and masks.
     stegoCanvas.style.display="none";
-    canvas.style.display=omni?"block":"none";
+    canvas.style.setProperty("display",omni?"block":"none","important");
 
     if(patternSelect){
       patternSelect.disabled=false;
@@ -226,14 +226,20 @@
     // Troodon is handled by its own dedicated renderer below.
   });
   document.getElementById("pickers")?.addEventListener("input",e=>{
+    if(dino.value!=="omniraptor"){
+      canvas.style.setProperty("display","none","important");
+      return;
+    }
     if(
-      dino.value==="omniraptor" &&
       e.target.matches('input[type="color"],.hex-input')
     ) schedule(false);
   });
   document.getElementById("pickers")?.addEventListener("change",e=>{
+    if(dino.value!=="omniraptor"){
+      canvas.style.setProperty("display","none","important");
+      return;
+    }
     if(
-      dino.value==="omniraptor" &&
       e.target.matches('input[type="color"],.hex-input')
     ) schedule(true);
   });

@@ -9,6 +9,7 @@
   pointer-events:none;
 }
 #omniPreview{
+  display:none;
   image-rendering:auto;
   contain:layout paint size;
 }
