@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    beipi: ["A", "B", "C"],
     allo: ["A", "B", "C"],
     carno: ["A", "B", "C", "D"],
     hypsi: ["A", "B", "C"],
@@ -195,6 +196,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

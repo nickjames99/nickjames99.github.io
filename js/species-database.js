@@ -8,7 +8,7 @@
     Beipiaosaurus: {
       speciesId: "1",
       prefix: "AQEB",
-      previewId: "stego"
+      previewId: "beipi"
     },
     Carnotaurus: {
       speciesId: "2",
@@ -180,6 +180,7 @@
 
     const dedicatedPreviewSpecies = new Set([
       "Allosaurus",
+      "Beipiaosaurus",
       "Carnotaurus",
       "Ceratosaurus",
       "Hypsilophodon",
@@ -322,6 +323,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 

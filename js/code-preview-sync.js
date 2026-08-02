@@ -11,6 +11,7 @@
   // 15 = Stegosaurus
   const PREVIEW_SPECIES = {
     "0": "allo",
+    "1": "beipi",
     "2": "carno",
     "3": "cerato",
     "10": "hypsi",
@@ -54,6 +55,7 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 
 
