@@ -1,6 +1,16 @@
 (() => {
-  const credit = document.querySelector(".creator-credit");
-  if (!credit) return;
+  const host = document.getElementById("decodeStatus")?.closest(".code-panel");
+  if (!host) return;
+
+  const credit = document.createElement("div");
+  const name = document.createElement("strong");
+  credit.className = "creator-credit";
+  credit.append(document.createTextNode(
+    String.fromCharCode(77, 97, 100, 101, 32, 98, 121, 32)
+  ));
+  name.textContent = String.fromCharCode(160, 78, 105, 99, 107, 12483);
+  credit.append(name);
+  host.append(credit);
 
   const styleId = "creator-credit-gradient-motion";
   if (!document.getElementById(styleId)) {
@@ -48,3 +58,4 @@
 
   credit.classList.add("credit-gradient-motion");
 })();
+
