@@ -40,7 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
-    hypsi: ["A"],
+    hypsi: ["A", "B", "C"],
     kentro: ["A", "B", "C"],
     omniraptor: ["A", "B", "C", "D", "E"],
     stego: ["A", "B", "C"],
@@ -147,7 +147,7 @@
       applyDecodedColors(colors);
 
       decodeStatus.textContent =
-        `${speciesName} · Pattern ${patternName} — 7 colors loaded`;
+        `${speciesName} Â· Pattern ${patternName} â€” 7 colors loaded`;
       decodeStatus.style.color = "var(--green)";
 
       // Let existing preview/generator listeners finish updating.
@@ -193,4 +193,6 @@
 
   updatePatternOptions();
 })();
+
+
 

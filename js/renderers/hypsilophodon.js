@@ -1,14 +1,19 @@
 (() => {
-  const SOURCES = {
-    base: "./assets/embedded/hypsilophodon/pattern-a/base.png",
-    body: "./assets/embedded/hypsilophodon/pattern-a/body.png",
-    detail: "./assets/embedded/hypsilophodon/pattern-a/detail.png",
-    dominant: "./assets/embedded/hypsilophodon/pattern-a/dominant.png",
-    eyes: "./assets/embedded/hypsilophodon/pattern-a/eyes.png",
-    flank: "./assets/embedded/hypsilophodon/pattern-a/flank.png",
-    markings: "./assets/embedded/hypsilophodon/pattern-a/markings.png",
-    underside: "./assets/embedded/hypsilophodon/pattern-a/underside.png"
-  };
+  const SOURCES = Object.fromEntries(
+    ["A", "B", "C"].map(pattern => {
+      const folder = `pattern-${pattern.toLowerCase()}`;
+      return [pattern, {
+        base: `./assets/embedded/hypsilophodon/${folder}/base.png`,
+        body: `./assets/embedded/hypsilophodon/${folder}/body.png`,
+        detail: `./assets/embedded/hypsilophodon/${folder}/detail.png`,
+        dominant: `./assets/embedded/hypsilophodon/${folder}/dominant.png`,
+        eyes: `./assets/embedded/hypsilophodon/${folder}/eyes.png`,
+        flank: `./assets/embedded/hypsilophodon/${folder}/flank.png`,
+        markings: `./assets/embedded/hypsilophodon/${folder}/markings.png`,
+        underside: `./assets/embedded/hypsilophodon/${folder}/underside.png`
+      }];
+    })
+  );
   const CHANNELS = ["dominant", "markings", "flank", "detail", "body", "underside", "eyes"];
 
   const canvas = document.getElementById("hypsiPreview");
@@ -24,7 +29,7 @@
 
   if (!canvas || !context || !dinosaurSelect || !patternSelect) return;
 
-  const state = { loaded: null, loading: null, timer: 0 };
+  const state = { loaded: new Map(), loading: new Map(), timer: 0 };
 
   function loadImage(source) {
     return new Promise((resolve, reject) => {
@@ -62,24 +67,35 @@
     return mask;
   }
 
-  async function ensureLoaded() {
-    if (state.loaded) return state.loaded;
-    if (state.loading) return state.loading;
-    state.loading = (async () => {
-      const base = await loadImage(SOURCES.base);
-      const images = await Promise.all(CHANNELS.map(channel => loadImage(SOURCES[channel])));
+  async function ensureLoaded(pattern) {
+    if (state.loaded.has(pattern)) return state.loaded.get(pattern);
+    if (state.loading.has(pattern)) return state.loading.get(pattern);
+    const sources = SOURCES[pattern];
+    if (!sources) return null;
+
+    const loading = (async () => {
+      const base = await loadImage(sources.base);
+      const images = await Promise.all(
+        CHANNELS.map(channel => loadImage(sources[channel]))
+      );
       const masks = {};
       CHANNELS.forEach((channel, index) => {
-        masks[channel] = readMask(images[index], base, base.naturalWidth, base.naturalHeight);
+        masks[channel] = readMask(
+          images[index], base, base.naturalWidth, base.naturalHeight
+        );
       });
-      state.loaded = { base, masks };
-      return state.loaded;
+      const loaded = { base, masks };
+      state.loaded.set(pattern, loaded);
+      state.loading.delete(pattern);
+      return loaded;
     })().catch(error => {
-      state.loading = null;
-      console.error("Hypsilophodon preview failed to load:", error);
+      state.loading.delete(pattern);
+      console.error(`Hypsilophodon Pattern ${pattern} failed to load:`, error);
       return null;
     });
-    return state.loading;
+
+    state.loading.set(pattern, loading);
+    return loading;
   }
 
   function normalizeHex(value) {
@@ -108,22 +124,30 @@
       item.style.setProperty("display", item === canvas ? "block" : "none", "important");
     });
     [...patternSelect.options].forEach(option => {
-      const available = option.value === "A";
+      const available = ["A", "B", "C"].includes(option.value);
       option.disabled = !available;
       option.hidden = !available;
     });
-    patternSelect.value = "A";
-    patternSelect.disabled = true;
+    if (!["A", "B", "C"].includes(patternSelect.value)) {
+      patternSelect.value = "A";
+    }
+    patternSelect.disabled = false;
     if (speciesSelect) speciesSelect.value = "10";
-    if (badge) badge.textContent = "Hypsilophodon · Pattern A";
-    if (note) note.textContent = "Pattern A";
+    if (badge) badge.textContent =
+      `Hypsilophodon · Pattern ${patternSelect.value}`;
+    if (note) note.textContent = `Pattern ${patternSelect.value}`;
     return true;
   }
 
   async function render() {
     if (!updateControls()) return;
-    const active = await ensureLoaded();
-    if (!active || dinosaurSelect.value !== "hypsi") return;
+    const pattern = patternSelect.value;
+    const active = await ensureLoaded(pattern);
+    if (
+      !active ||
+      dinosaurSelect.value !== "hypsi" ||
+      patternSelect.value !== pattern
+    ) return;
 
     updateControls();
     canvas.width = active.base.naturalWidth;
@@ -187,9 +211,11 @@
     event.preventDefault();
     event.stopImmediatePropagation();
     const link = document.createElement("a");
-    link.download = "hypsilophodon-pattern-a.png";
+    link.download = `hypsilophodon-pattern-${patternSelect.value.toLowerCase()}.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
   }, true);
 })();
+
+
 
