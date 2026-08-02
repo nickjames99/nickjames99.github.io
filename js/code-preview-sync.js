@@ -14,6 +14,7 @@
     "1": "beipi",
     "2": "carno",
     "3": "cerato",
+    "6": "dilo",
     "10": "hypsi",
     "12": "omniraptor",
     "15": "stego",
@@ -55,6 +56,7 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 
 

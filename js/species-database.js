@@ -33,7 +33,7 @@
     Dilophosaurus: {
       speciesId: "6",
       prefix: "AQEG",
-      previewId: "stego"
+      previewId: "dilo"
     },
     Dryosaurus: {
       speciesId: "7",
@@ -183,6 +183,7 @@
       "Beipiaosaurus",
       "Carnotaurus",
       "Ceratosaurus",
+      "Dilophosaurus",
       "Hypsilophodon",
       "Omniraptor",
       "Stegosaurus",
@@ -323,6 +324,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 

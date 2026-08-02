@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    dilo: ["A", "B", "C"],
     beipi: ["A", "B", "C"],
     allo: ["A", "B", "C"],
     carno: ["A", "B", "C", "D"],
@@ -196,6 +197,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 
