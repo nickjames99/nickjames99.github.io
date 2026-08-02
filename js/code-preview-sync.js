@@ -11,6 +11,7 @@
   // 15 = Stegosaurus
   const PREVIEW_SPECIES = {
     "3": "cerato",
+    "10": "hypsi",
     "12": "omniraptor",
     "15": "stego",
     "16": "tenonto",
@@ -51,5 +52,6 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 

@@ -53,7 +53,7 @@
     Hypsilophodon: {
       speciesId: "10",
       prefix: "AQEK",
-      previewId: "stego"
+      previewId: "hypsi"
     },
     Maiasaura: {
       speciesId: "11",
@@ -180,6 +180,7 @@
 
     const dedicatedPreviewSpecies = new Set([
       "Ceratosaurus",
+      "Hypsilophodon",
       "Omniraptor",
       "Stegosaurus",
       "Tenontosaurus",
@@ -319,5 +320,6 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 

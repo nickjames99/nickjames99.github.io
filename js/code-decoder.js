@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    hypsi: ["A"],
     kentro: ["A", "B", "C"],
     omniraptor: ["A", "B", "C", "D", "E"],
     stego: ["A", "B", "C"],
@@ -192,3 +193,4 @@
 
   updatePatternOptions();
 })();
+

@@ -164,6 +164,7 @@
   dino.addEventListener("change",()=>{
     const previewSpeciesId = {
       cerato: "3",
+      hypsi: "10",
       kentro: "20",
       omniraptor: "12",
       stego: "15",
@@ -269,4 +270,5 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
