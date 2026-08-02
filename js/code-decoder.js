@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    deino: ["A", "B", "C"],
     galli: ["A", "B", "C"],
     herra: ["A", "B", "C", "D"],
     pachy: ["A", "B", "C", "D"],
@@ -203,6 +204,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

@@ -23,7 +23,7 @@
     Deinosuchus: {
       speciesId: "4",
       prefix: "AQEE",
-      previewId: "stego"
+      previewId: "deino"
     },
     Diabloceratops: {
       speciesId: "5",
@@ -183,6 +183,7 @@
       "Beipiaosaurus",
       "Carnotaurus",
       "Ceratosaurus",
+      "Deinosuchus",
       "Dilophosaurus",
       "Dryosaurus",
       "Gallimimus",
@@ -330,6 +331,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 
