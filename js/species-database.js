@@ -88,7 +88,7 @@
     Triceratops: {
       speciesId: "17",
       prefix: "AQER",
-      previewId: "stego"
+      previewId: "trike"
     },
     Troodon: {
       speciesId: "18",
@@ -193,6 +193,7 @@
       "Pachycephalosaurus",
       "Stegosaurus",
       "Tenontosaurus",
+      "Triceratops",
       "Troodon",
       "Tyrannosaurus",
       "Kentrosaurus",
@@ -331,6 +332,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 

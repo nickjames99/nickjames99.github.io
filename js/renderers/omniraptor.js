@@ -201,6 +201,7 @@
       pachy: "13",
       stego: "15",
       tenonto: "16",
+      trike: "17",
       troodon: "18",
       trex: "19"
     }[dino.value];
@@ -341,6 +342,7 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
 
 
