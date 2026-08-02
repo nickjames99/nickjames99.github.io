@@ -61,10 +61,9 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 
-  // Also cover code paths where the decoder updates the species dropdown directly.
-  speciesSelect.addEventListener("change", () => {
-    setTimeout(syncPreviewFromDecodedSpecies, 0);
-  });
+  // Do not synchronize from every speciesSelect change. Color editing and
+  // generated-code updates can touch that field, while the active preview
+  // should change only from dinoSelect or an explicit pasted-code decode.
 })();
 
 

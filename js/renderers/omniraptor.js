@@ -220,11 +220,6 @@
     updatePreviewLabels();
     if(dino.value==="omniraptor") schedule(true);
   });
-  species?.addEventListener("change",()=>{
-    if(species.value==="12")choose("omniraptor");
-    else if(species.value==="15")choose("stego");
-    // Troodon is handled by its own dedicated renderer below.
-  });
   document.getElementById("pickers")?.addEventListener("input",e=>{
     if(dino.value!=="omniraptor"){
       canvas.style.setProperty("display","none","important");
@@ -346,8 +341,9 @@
     preparePattern("D",patternDBase,patternDMasks,true);
     preparePattern("E",patternEBase,patternEMasks,true);
 
-    if(species?.value==="12")choose("omniraptor");
-    else choose(dino.value);
+    // The live-preview dinosaur is controlled only by dinoSelect. Generated
+    // code/species updates must never replace the user's active preview.
+    choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
 
