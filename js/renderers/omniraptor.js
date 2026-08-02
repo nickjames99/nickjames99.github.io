@@ -29,6 +29,26 @@
     underside: "./assets/embedded/omniraptor/image-023-4a55adfa.png",
     eyes: "./assets/embedded/omniraptor/image-024-ca5ab23f.png"
   };
+  const PATTERN_D_BASE="./assets/embedded/omniraptor/pattern-d/base.png";
+  const PATTERN_D_MASKS={
+    dominant: "./assets/embedded/omniraptor/pattern-d/dominant.png",
+    markings: "./assets/embedded/omniraptor/pattern-d/markings.png",
+    flank: "./assets/embedded/omniraptor/pattern-d/flank.png",
+    detail: "./assets/embedded/omniraptor/pattern-d/detail.png",
+    body: "./assets/embedded/omniraptor/pattern-d/body.png",
+    underside: "./assets/embedded/omniraptor/pattern-d/underside.png",
+    eyes: "./assets/embedded/omniraptor/pattern-d/eyes.png"
+  };
+  const PATTERN_E_BASE="./assets/embedded/omniraptor/pattern-e/base.png";
+  const PATTERN_E_MASKS={
+    dominant: "./assets/embedded/omniraptor/pattern-e/dominant.png",
+    markings: "./assets/embedded/omniraptor/pattern-e/markings.png",
+    flank: "./assets/embedded/omniraptor/pattern-e/flank.png",
+    detail: "./assets/embedded/omniraptor/pattern-e/detail.png",
+    body: "./assets/embedded/omniraptor/pattern-e/body.png",
+    underside: "./assets/embedded/omniraptor/pattern-e/underside.png",
+    eyes: "./assets/embedded/omniraptor/pattern-e/eyes.png"
+  };
   const CHANNELS=["dominant","markings","flank","detail","body","underside","eyes"];
   const stegoCanvas=document.getElementById("dinoPreview");
   const canvas=document.getElementById("omniPreview");
@@ -44,7 +64,9 @@
     patterns:{
       A:{base:null,masks:{},ready:false},
       B:{base:null,masks:{},ready:false},
-      C:{base:null,masks:{},ready:false}
+      C:{base:null,masks:{},ready:false},
+      D:{base:null,masks:{},ready:false},
+      E:{base:null,masks:{},ready:false}
     },
     hold:false,
     timer:null
@@ -230,7 +252,7 @@
     a.click();
   },true);
 
-  function preparePattern(pattern,baseImage,maskImages){
+  function preparePattern(pattern,baseImage,maskImages,subtractBase=false){
     const temp=document.createElement("canvas");
     temp.width=baseImage.naturalWidth;
     temp.height=baseImage.naturalHeight;
@@ -239,10 +261,36 @@
     const target=state.patterns[pattern];
     target.base=baseImage;
 
+    let basePixels=null;
+    if(subtractBase){
+      tempCtx.clearRect(0,0,temp.width,temp.height);
+      tempCtx.drawImage(baseImage,0,0);
+      basePixels=tempCtx.getImageData(0,0,temp.width,temp.height).data;
+    }
+
     CHANNELS.forEach((channel,index)=>{
       tempCtx.clearRect(0,0,temp.width,temp.height);
       tempCtx.drawImage(maskImages[index],0,0);
-      target.masks[channel]=tempCtx.getImageData(0,0,temp.width,temp.height).data;
+      const source=tempCtx.getImageData(0,0,temp.width,temp.height).data;
+
+      if(!subtractBase){
+        target.masks[channel]=source;
+        return;
+      }
+
+      const clean=new Uint8ClampedArray(source.length);
+      for(let pixel=0;pixel<source.length;pixel+=4){
+        const baseLuma=.2126*basePixels[pixel]+.7152*basePixels[pixel+1]+.0722*basePixels[pixel+2];
+        const sourceLuma=.2126*source[pixel]+.7152*source[pixel+1]+.0722*source[pixel+2];
+        let amount=(sourceLuma-baseLuma)/Math.max(24,255-baseLuma);
+        amount=Math.max(0,Math.min(1,(amount-.018)/.982));
+        const value=Math.round(amount*255);
+        clean[pixel]=value;
+        clean[pixel+1]=value;
+        clean[pixel+2]=value;
+        clean[pixel+3]=255;
+      }
+      target.masks[channel]=clean;
     });
 
     target.ready=true;
@@ -254,7 +302,11 @@
     load(BASE),
     ...CHANNELS.map(channel=>load(MASKS[channel])),
     load(PATTERN_C_BASE),
-    ...CHANNELS.map(channel=>load(PATTERN_C_MASKS[channel]))
+    ...CHANNELS.map(channel=>load(PATTERN_C_MASKS[channel])),
+    load(PATTERN_D_BASE),
+    ...CHANNELS.map(channel=>load(PATTERN_D_MASKS[channel])),
+    load(PATTERN_E_BASE),
+    ...CHANNELS.map(channel=>load(PATTERN_E_MASKS[channel]))
   ]).then(images=>{
     const block=1+CHANNELS.length;
 
@@ -267,9 +319,17 @@
     const patternCBase=images[block*2];
     const patternCMasks=images.slice(block*2+1,block*3);
 
+    const patternDBase=images[block*3];
+    const patternDMasks=images.slice(block*3+1,block*4);
+
+    const patternEBase=images[block*4];
+    const patternEMasks=images.slice(block*4+1,block*5);
+
     preparePattern("A",patternABase,patternAMasks);
     preparePattern("B",patternBBase,patternBMasks);
     preparePattern("C",patternCBase,patternCMasks);
+    preparePattern("D",patternDBase,patternDMasks,true);
+    preparePattern("E",patternEBase,patternEMasks,true);
 
     if(species?.value==="12")choose("omniraptor");
     else choose(dino.value);
