@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    galli: ["A", "B", "C"],
     herra: ["A", "B", "C", "D"],
     pachy: ["A", "B", "C", "D"],
     trex: ["A", "B", "C"],
@@ -202,6 +203,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

@@ -16,6 +16,7 @@
     "3": "cerato",
     "6": "dilo",
     "7": "dryo",
+    "8": "galli",
     "9": "herra",
     "10": "hypsi",
     "11": "maia",
@@ -61,6 +62,7 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 
 

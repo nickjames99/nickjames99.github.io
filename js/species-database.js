@@ -43,7 +43,7 @@
     Gallimimus: {
       speciesId: "8",
       prefix: "AQEI",
-      previewId: "stego"
+      previewId: "galli"
     },
     Herrerasaurus: {
       speciesId: "9",
@@ -185,6 +185,7 @@
       "Ceratosaurus",
       "Dilophosaurus",
       "Dryosaurus",
+      "Gallimimus",
       "Herrerasaurus",
       "Hypsilophodon",
       "Omniraptor",
@@ -329,6 +330,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 

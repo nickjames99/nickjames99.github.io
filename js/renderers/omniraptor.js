@@ -191,6 +191,7 @@
       cerato: "3",
       dilo: "6",
       dryo: "7",
+      galli: "8",
       herra: "9",
       hypsi: "10",
       maia: "11",
@@ -339,6 +340,7 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
 
 
