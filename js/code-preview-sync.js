@@ -24,6 +24,7 @@
     "11": "maia",
     "12": "omniraptor",
     "13": "pachy",
+    "14": "ptera",
     "15": "stego",
     "16": "tenonto",
     "17": "trike",

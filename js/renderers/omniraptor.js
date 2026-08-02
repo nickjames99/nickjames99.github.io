@@ -200,6 +200,7 @@
       kentro: "20",
       omniraptor: "12",
       pachy: "13",
+      ptera: "14",
       stego: "15",
       tenonto: "16",
       trike: "17",

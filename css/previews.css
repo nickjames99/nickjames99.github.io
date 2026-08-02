@@ -263,3 +263,18 @@ body[data-active-preview="troodon"] #troodonPreview {
   contain: layout paint size;
 }
 
+/* pteranodon-pattern-abc-top-bottom-preview */
+#pteraPreview {
+  display: none;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  image-rendering: auto;
+  contain: layout paint size;
+}
+
+#pteraViewSelect[hidden] {
+  display: none !important;
+}
+

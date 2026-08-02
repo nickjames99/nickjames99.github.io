@@ -73,7 +73,7 @@
     Pteranodon: {
       speciesId: "14",
       prefix: "AQEO",
-      previewId: "stego"
+      previewId: "ptera"
     },
     Stegosaurus: {
       speciesId: "15",
@@ -192,6 +192,7 @@
       "Hypsilophodon",
       "Omniraptor",
       "Pachycephalosaurus",
+      "Pteranodon",
       "Stegosaurus",
       "Tenontosaurus",
       "Triceratops",

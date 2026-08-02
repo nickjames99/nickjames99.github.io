@@ -46,6 +46,7 @@
     galli: ["A", "B", "C"],
     herra: ["A", "B", "C", "D"],
     pachy: ["A", "B", "C", "D"],
+    ptera: ["A", "B", "C"],
     trex: ["A", "B", "C"],
     maia: ["A", "B", "C"],
     dryo: ["A", "B", "C"],
