@@ -13,7 +13,7 @@
     Carnotaurus: {
       speciesId: "2",
       prefix: "AQEC",
-      previewId: "stego"
+      previewId: "carno"
     },
     Ceratosaurus: {
       speciesId: "3",
@@ -179,6 +179,7 @@
     if (!detected) return false;
 
     const dedicatedPreviewSpecies = new Set([
+      "Carnotaurus",
       "Ceratosaurus",
       "Hypsilophodon",
       "Omniraptor",
@@ -320,6 +321,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 

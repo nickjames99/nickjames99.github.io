@@ -10,6 +10,7 @@
   // 12 = Omniraptor
   // 15 = Stegosaurus
   const PREVIEW_SPECIES = {
+    "2": "carno",
     "3": "cerato",
     "10": "hypsi",
     "12": "omniraptor",
@@ -52,6 +53,7 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 
 
