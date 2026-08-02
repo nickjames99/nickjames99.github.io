@@ -19,6 +19,7 @@
     "10": "hypsi",
     "11": "maia",
     "12": "omniraptor",
+    "13": "pachy",
     "15": "stego",
     "16": "tenonto",
     "18": "troodon",
@@ -59,6 +60,7 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 
 

@@ -195,6 +195,7 @@
       maia: "11",
       kentro: "20",
       omniraptor: "12",
+      pachy: "13",
       stego: "15",
       tenonto: "16",
       troodon: "18",
@@ -337,6 +338,7 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
 
 

@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    pachy: ["A", "B", "C", "D"],
     trex: ["A", "B", "C"],
     maia: ["A", "B", "C"],
     dryo: ["A", "B", "C"],
@@ -200,6 +201,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

@@ -68,7 +68,7 @@
     Pachycephalosaurus: {
       speciesId: "13",
       prefix: "AQEN",
-      previewId: "stego"
+      previewId: "pachy"
     },
     Pteranodon: {
       speciesId: "14",
@@ -187,6 +187,7 @@
       "Dryosaurus",
       "Hypsilophodon",
       "Omniraptor",
+      "Pachycephalosaurus",
       "Stegosaurus",
       "Tenontosaurus",
       "Troodon",
@@ -327,6 +328,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 
