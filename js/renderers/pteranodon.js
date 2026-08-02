@@ -139,7 +139,7 @@
       patternSelect.value = "A";
     }
     patternSelect.disabled = false;
-    if (speciesSelect) speciesSelect.value = "4";
+    if (speciesSelect) speciesSelect.value = "14";
     if (badge) badge.textContent =
       `Pteranodon · Pattern ${patternSelect.value} · ${viewSelect.value === "bottom" ? "Bottom" : "Top"}`;
     if (note) note.textContent = `Pattern ${patternSelect.value} · ${viewSelect.value === "bottom" ? "Bottom" : "Top"}`;
