@@ -28,7 +28,7 @@
     Diabloceratops: {
       speciesId: "5",
       prefix: "AQEF",
-      previewId: "stego"
+      previewId: "dibble"
     },
     Dilophosaurus: {
       speciesId: "6",
@@ -184,6 +184,7 @@
       "Carnotaurus",
       "Ceratosaurus",
       "Deinosuchus",
+      "Diabloceratops",
       "Dilophosaurus",
       "Dryosaurus",
       "Gallimimus",
@@ -332,6 +333,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 

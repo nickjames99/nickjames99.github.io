@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    dibble: ["A", "B", "C"],
     trike: ["A", "B", "C"],
     deino: ["A", "B", "C"],
     galli: ["A", "B", "C"],
@@ -205,6 +206,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 

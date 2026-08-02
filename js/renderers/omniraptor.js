@@ -190,6 +190,7 @@
       carno: "2",
       cerato: "3",
       deino: "4",
+      dibble: "5",
       dilo: "6",
       dryo: "7",
       galli: "8",
@@ -342,6 +343,7 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
 
 

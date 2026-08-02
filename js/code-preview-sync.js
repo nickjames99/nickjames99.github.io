@@ -15,6 +15,7 @@
     "2": "carno",
     "3": "cerato",
     "4": "deino",
+    "5": "dibble",
     "6": "dilo",
     "7": "dryo",
     "8": "galli",
@@ -64,6 +65,7 @@
     setTimeout(syncPreviewFromDecodedSpecies, 0);
   });
 })();
+
 
 
 
