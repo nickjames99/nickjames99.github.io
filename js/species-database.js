@@ -38,7 +38,7 @@
     Dryosaurus: {
       speciesId: "7",
       prefix: "AQEH",
-      previewId: "stego"
+      previewId: "dryo"
     },
     Gallimimus: {
       speciesId: "8",
@@ -184,6 +184,7 @@
       "Carnotaurus",
       "Ceratosaurus",
       "Dilophosaurus",
+      "Dryosaurus",
       "Hypsilophodon",
       "Omniraptor",
       "Stegosaurus",
@@ -324,6 +325,7 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
+
 
 
 

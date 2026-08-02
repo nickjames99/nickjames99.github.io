@@ -168,6 +168,7 @@
       carno: "2",
       cerato: "3",
       dilo: "6",
+      dryo: "7",
       hypsi: "10",
       kentro: "20",
       omniraptor: "12",
@@ -274,6 +275,7 @@
     else choose(dino.value);
   }).catch(err=>console.error("Omniraptor preview failed:",err));
 })();
+
 
 
 

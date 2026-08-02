@@ -40,6 +40,7 @@
   };
 
   const AVAILABLE_PREVIEW_PATTERNS = {
+    dryo: ["A", "B", "C"],
     dilo: ["A", "B", "C"],
     beipi: ["A", "B", "C"],
     allo: ["A", "B", "C"],
@@ -197,6 +198,7 @@
 
   updatePatternOptions();
 })();
+
 
 
 
