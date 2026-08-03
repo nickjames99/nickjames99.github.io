@@ -1,53 +1,20 @@
 (() => {
-  const CHANNELS = [
-    "dominant", "markings", "flank", "detail", "body", "underside", "eyes"
-  ];
-
-  const SOURCES = {
-    A: {
-      base: "./assets/embedded/omniraptor/image-009-5acf502a.png",
-      dominant: "./assets/embedded/omniraptor/image-010-720f9512.png",
-      markings: "./assets/embedded/omniraptor/image-011-3178247f.png",
-      flank: "./assets/embedded/omniraptor/image-012-8242645d.png",
-      detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
-      body: "./assets/embedded/omniraptor/image-014-08675ae3.png",
-      underside: "./assets/embedded/omniraptor/image-015-0393a687.png",
-      eyes: "./assets/embedded/omniraptor/image-008-ad874062.png",
-      directMasks: true
-    },
-    B: {
-      base: "./assets/embedded/omniraptor/image-017-d0c2f89c.png",
-      dominant: "./assets/embedded/omniraptor/image-018-35eeffd7.png",
-      markings: "./assets/embedded/omniraptor/image-019-78a8ae28.png",
-      flank: "./assets/embedded/omniraptor/image-020-155268d5.png",
-      detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
-      body: "./assets/embedded/omniraptor/image-022-b8680827.png",
-      underside: "./assets/embedded/omniraptor/image-023-4a55adfa.png",
-      eyes: "./assets/embedded/omniraptor/image-024-ca5ab23f.png",
-      directMasks: true
-    },
-    C: {
-      base: "./assets/embedded/omniraptor/image-001-d811315d.png",
-      dominant: "./assets/embedded/omniraptor/image-002-30952556.png",
-      markings: "./assets/embedded/omniraptor/image-003-0f55d2d9.png",
-      flank: "./assets/embedded/omniraptor/image-004-fcefe431.png",
-      detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
-      body: "./assets/embedded/omniraptor/image-006-8e4d7c03.png",
-      underside: "./assets/embedded/omniraptor/image-007-be8f6cdd.png",
-      eyes: "./assets/embedded/omniraptor/image-008-ad874062.png",
-      directMasks: true
-    },
-    D: Object.fromEntries(
-      ["base", ...CHANNELS].map(name => [
-        name, `./assets/embedded/omniraptor/pattern-d/${name}.png`
-      ])
-    ),
-    E: Object.fromEntries(
-      ["base", ...CHANNELS].map(name => [
-        name, `./assets/embedded/omniraptor/pattern-e/${name}.png`
-      ])
-    )
-  };
+  const SOURCES = Object.fromEntries(
+    ["A", "B", "C", "D", "E"].map(pattern => {
+      const folder = `pattern-${pattern.toLowerCase()}`;
+      return [pattern, {
+        base: `./assets/embedded/omniraptor/${folder}/base.png`,
+        body: `./assets/embedded/omniraptor/${folder}/body.png`,
+        detail: `./assets/embedded/omniraptor/${folder}/detail.png`,
+        dominant: `./assets/embedded/omniraptor/${folder}/dominant.png`,
+        eyes: `./assets/embedded/omniraptor/${folder}/eyes.png`,
+        flank: `./assets/embedded/omniraptor/${folder}/flank.png`,
+        markings: `./assets/embedded/omniraptor/${folder}/markings.png`,
+        underside: `./assets/embedded/omniraptor/${folder}/underside.png`
+      }];
+    })
+  );
+  const CHANNELS = ["dominant", "markings", "flank", "detail", "body", "underside", "eyes"];
 
   const canvas = document.getElementById("omniPreview");
   const context = canvas?.getContext("2d", { willReadFrequently: true });
@@ -62,11 +29,7 @@
 
   if (!canvas || !context || !dinosaurSelect || !patternSelect) return;
 
-  const state = {
-    loaded: new Map(),
-    loading: new Map(),
-    timer: 0
-  };
+  const state = { loaded: new Map(), loading: new Map(), timer: 0 };
 
   function loadImage(source) {
     return new Promise((resolve, reject) => {
@@ -77,29 +40,22 @@
     });
   }
 
-  function imagePixels(image, width, height) {
+  function readMask(image, baseImage, width, height) {
     const work = document.createElement("canvas");
     work.width = width;
     work.height = height;
     const workContext = work.getContext("2d", { willReadFrequently: true });
-    workContext.drawImage(image, 0, 0, width, height);
-    return workContext.getImageData(0, 0, width, height).data;
-  }
 
-  function subtractBaseMask(image, baseImage, width, height) {
-    const basePixels = imagePixels(baseImage, width, height);
-    const sourcePixels = imagePixels(image, width, height);
+    workContext.drawImage(baseImage, 0, 0, width, height);
+    const basePixels = workContext.getImageData(0, 0, width, height).data;
+    workContext.clearRect(0, 0, width, height);
+    workContext.drawImage(image, 0, 0, width, height);
+    const sourcePixels = workContext.getImageData(0, 0, width, height).data;
     const mask = new Uint8ClampedArray(sourcePixels.length);
 
     for (let pixel = 0; pixel < sourcePixels.length; pixel += 4) {
-      const baseLuma =
-        0.2126 * basePixels[pixel] +
-        0.7152 * basePixels[pixel + 1] +
-        0.0722 * basePixels[pixel + 2];
-      const sourceLuma =
-        0.2126 * sourcePixels[pixel] +
-        0.7152 * sourcePixels[pixel + 1] +
-        0.0722 * sourcePixels[pixel + 2];
+      const baseLuma = 0.2126 * basePixels[pixel] + 0.7152 * basePixels[pixel + 1] + 0.0722 * basePixels[pixel + 2];
+      const sourceLuma = 0.2126 * sourcePixels[pixel] + 0.7152 * sourcePixels[pixel + 1] + 0.0722 * sourcePixels[pixel + 2];
       let amount = (sourceLuma - baseLuma) / Math.max(24, 255 - baseLuma);
       amount = Math.max(0, Math.min(1, (amount - 0.018) / 0.982));
       const value = Math.round(amount * 255);
@@ -108,14 +64,12 @@
       mask[pixel + 2] = value;
       mask[pixel + 3] = 255;
     }
-
     return mask;
   }
 
   async function ensureLoaded(pattern) {
     if (state.loaded.has(pattern)) return state.loaded.get(pattern);
     if (state.loading.has(pattern)) return state.loading.get(pattern);
-
     const sources = SOURCES[pattern];
     if (!sources) return null;
 
@@ -125,15 +79,11 @@
         CHANNELS.map(channel => loadImage(sources[channel]))
       );
       const masks = {};
-
       CHANNELS.forEach((channel, index) => {
-        masks[channel] = sources.directMasks
-          ? imagePixels(images[index], base.naturalWidth, base.naturalHeight)
-          : subtractBaseMask(
-              images[index], base, base.naturalWidth, base.naturalHeight
-            );
+        masks[channel] = readMask(
+          images[index], base, base.naturalWidth, base.naturalHeight
+        );
       });
-
       const loaded = { base, masks };
       state.loaded.set(pattern, loaded);
       state.loading.delete(pattern);
@@ -159,51 +109,40 @@
   }
 
   function currentColors() {
-    const inputs = [
-      ...document.querySelectorAll('#pickers input[type="color"]')
-    ];
+    const inputs = [...document.querySelectorAll('#pickers input[type="color"]')];
     return CHANNELS.map((_, index) => normalizeHex(inputs[index]?.value));
   }
 
   function updateControls() {
     const active = dinosaurSelect.value === "omniraptor";
-
     if (!active) {
       canvas.style.setProperty("display", "none", "important");
       return false;
     }
 
     document.querySelectorAll(".preview-stage canvas").forEach(item => {
-      item.style.setProperty(
-        "display", item === canvas ? "block" : "none", "important"
-      );
+      item.style.setProperty("display", item === canvas ? "block" : "none", "important");
     });
-
     [...patternSelect.options].forEach(option => {
       const available = ["A", "B", "C", "D", "E"].includes(option.value);
       option.disabled = !available;
       option.hidden = !available;
     });
-
     if (!["A", "B", "C", "D", "E"].includes(patternSelect.value)) {
       patternSelect.value = "A";
     }
-
     patternSelect.disabled = false;
     if (speciesSelect) speciesSelect.value = "12";
-    if (badge) {
-      badge.textContent = `Omniraptor · Pattern ${patternSelect.value}`;
-    }
+    if (badge) badge.textContent =
+      `Omniraptor · Pattern ${patternSelect.value}`;
     if (note) note.textContent = `Pattern ${patternSelect.value}`;
     return true;
   }
 
   async function render() {
     if (!updateControls()) return;
-
     const pattern = patternSelect.value;
     const active = await ensureLoaded(pattern);
-
     if (
       !active ||
       dinosaurSelect.value !== "omniraptor" ||
@@ -227,25 +166,14 @@
       const [targetR, targetG, targetB] = colors[colorIndex];
 
       for (let index = 0; index < pixels.length; index += 4) {
-        const amount = (mask[index] / 255) * (mask[index + 3] / 255);
-        if (amount < 0.02) continue;
-
-        const luminance =
-          (0.2126 * pixels[index] +
-            0.7152 * pixels[index + 1] +
-            0.0722 * pixels[index + 2]) / 255;
+        const amount = mask[index] / 255;
+        if (amount < 0.018) continue;
+        const luminance = (0.2126 * pixels[index] + 0.7152 * pixels[index + 1] + 0.0722 * pixels[index + 2]) / 255;
         const shade = 0.30 + Math.pow(luminance, 0.76) * 1.02;
         const strength = Math.min(1, amount * 1.12);
-
-        pixels[index] =
-          pixels[index] * (1 - strength) +
-          Math.min(255, targetR * shade) * strength;
-        pixels[index + 1] =
-          pixels[index + 1] * (1 - strength) +
-          Math.min(255, targetG * shade) * strength;
-        pixels[index + 2] =
-          pixels[index + 2] * (1 - strength) +
-          Math.min(255, targetB * shade) * strength;
+        pixels[index] = pixels[index] * (1 - strength) + Math.min(255, targetR * shade) * strength;
+        pixels[index + 1] = pixels[index + 1] * (1 - strength) + Math.min(255, targetG * shade) * strength;
+        pixels[index + 2] = pixels[index + 2] * (1 - strength) + Math.min(255, targetB * shade) * strength;
       }
     });
 
@@ -265,19 +193,15 @@
       canvas.style.setProperty("display", "none", "important");
     }
   });
-
   patternSelect.addEventListener("change", () => {
     if (dinosaurSelect.value === "omniraptor") scheduleRender(0);
   });
-
   sexSelect?.addEventListener("change", () => {
     if (dinosaurSelect.value === "omniraptor") scheduleRender(0);
   });
-
   pickerContainer?.addEventListener("input", () => {
     if (dinosaurSelect.value === "omniraptor") scheduleRender();
   });
-
   pickerContainer?.addEventListener("change", () => {
     if (dinosaurSelect.value === "omniraptor") scheduleRender(0);
   });
@@ -286,11 +210,20 @@
     if (dinosaurSelect.value !== "omniraptor") return;
     event.preventDefault();
     event.stopImmediatePropagation();
-
     const link = document.createElement("a");
-    link.download =
-      `omniraptor-pattern-${patternSelect.value.toLowerCase()}.png`;
+    link.download = `omniraptor-pattern-${patternSelect.value.toLowerCase()}.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
   }, true);
 })();
+
+
+
+
+
+
+
+
+
+
+
