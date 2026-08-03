@@ -434,3 +434,34 @@ input[type=color]{
   }
 }
 
+
+
+/* native-preview-aspect-ratio */
+.preview-panel{
+  min-height:0;
+}
+.preview-stage{
+  flex:none;
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:1019 / 764;
+}
+@media(max-width:1050px){
+  .preview-panel{
+    min-height:0;
+  }
+  .preview-stage{
+    height:auto;
+    min-height:0;
+    aspect-ratio:1019 / 764;
+  }
+}
+@media(max-width:760px){
+  .preview-stage{
+    height:auto;
+    min-height:260px;
+    aspect-ratio:1019 / 764;
+  }
+}
+
