@@ -42,7 +42,6 @@
 
   const legacyStegoCanvas = document.getElementById("dinoPreview");
   const stegoCanvas = document.getElementById("stegoPreview");
-  const omniCanvas = document.getElementById("omniPreview");
   const ctx = stegoCanvas?.getContext("2d", { willReadFrequently: true });
 
   const dinosaurSelect = document.getElementById("dinoSelect");
@@ -53,7 +52,6 @@
   if (
     !legacyStegoCanvas ||
     !stegoCanvas ||
-    !omniCanvas ||
     !ctx ||
     !dinosaurSelect ||
     !patternSelect
@@ -94,48 +92,32 @@
   }
 
   function updatePatternAvailability() {
+    if (dinosaurSelect.value !== "stego") return;
+
     const optionA = patternSelect.querySelector('option[value="A"]');
     const optionB = patternSelect.querySelector('option[value="B"]');
     const optionC = patternSelect.querySelector('option[value="C"]');
 
-    if (dinosaurSelect.value === "stego") {
-      if (optionA) optionA.disabled = false;
-      if (optionB) optionB.disabled = false;
-      if (optionC) optionC.disabled = false;
-    } else {
-      if (optionA) optionA.disabled = false;
-      if (optionB) optionB.disabled = false;
-      if (optionC) optionC.disabled = false;
-    }
+    if (optionA) optionA.disabled = false;
+    if (optionB) optionB.disabled = false;
+    if (optionC) optionC.disabled = false;
   }
 
   function showCorrectCanvas() {
-    updatePatternAvailability();
-
     const isStego = dinosaurSelect.value === "stego";
-    const activePattern = patternSelect.value;
 
-    // Hide the older fixed Pattern B renderer. The selected A/B/C mask set
-    // is always rendered on the dedicated Stego canvas.
     legacyStegoCanvas.style.setProperty("display", "none", "important");
-    stegoCanvas.style.setProperty(
-      "display",
-      isStego ? "block" : "none",
-      "important"
-    );
-    omniCanvas.style.setProperty(
-      "display",
-      isStego ? "none" : "block",
-      "important"
-    );
-
-    if (badge) {
-      badge.textContent = isStego
-        ? `Stegosaurus · Pattern ${activePattern}`
-        : `Omniraptor · Pattern ${activePattern}`;
+    if (!isStego) {
+      stegoCanvas.style.setProperty("display", "none", "important");
+      return false;
     }
 
+    updatePatternAvailability();
+    const activePattern = patternSelect.value;
+    stegoCanvas.style.setProperty("display", "block", "important");
+    if (badge) badge.textContent = `Stegosaurus · Pattern ${activePattern}`;
     if (note) note.textContent = `Pattern ${activePattern}`;
+    return true;
   }
 
   function renderStego() {
@@ -211,8 +193,7 @@
     clearTimeout(state.timer);
 
     state.timer = setTimeout(() => {
-      showCorrectCanvas();
-      if (dinosaurSelect.value === "stego") renderStego();
+      if (showCorrectCanvas()) renderStego();
     }, immediate ? 0 : 135);
   }
 
@@ -220,13 +201,19 @@
   patternSelect.addEventListener("change", () => scheduleRender(true));
 
   document.getElementById("pickers")?.addEventListener("input", event => {
-    if (event.target.matches('input[type="color"], .hex-input')) {
+    if (
+      dinosaurSelect.value === "stego" &&
+      event.target.matches('input[type="color"], .hex-input')
+    ) {
       scheduleRender(false);
     }
   });
 
   document.getElementById("pickers")?.addEventListener("change", event => {
-    if (event.target.matches('input[type="color"], .hex-input')) {
+    if (
+      dinosaurSelect.value === "stego" &&
+      event.target.matches('input[type="color"], .hex-input')
+    ) {
       scheduleRender(true);
     }
   });
@@ -234,7 +221,9 @@
   ["randomBtn", "resetBtn", "decodeBtn"].forEach(id => {
     document.getElementById(id)?.addEventListener(
       "click",
-      () => scheduleRender(false)
+      () => {
+        if (dinosaurSelect.value === "stego") scheduleRender(false);
+      }
     );
   });
 
