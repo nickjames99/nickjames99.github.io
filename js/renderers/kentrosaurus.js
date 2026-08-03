@@ -6,7 +6,7 @@
         dominant: "./assets/embedded/kentrosaurus/image-002-09c9ed07.png",
         markings: "./assets/embedded/kentrosaurus/image-003-93a75fb5.png",
         flank: "./assets/embedded/kentrosaurus/image-004-de80ac5f.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/kentrosaurus/image-006-18678cc4.png",
         underside: "./assets/embedded/kentrosaurus/image-007-44d110ff.png",
         eyes: "./assets/embedded/kentrosaurus/image-008-679118eb.png"
@@ -18,7 +18,7 @@
         dominant: "./assets/embedded/kentrosaurus/image-010-a09c5f2f.png",
         markings: "./assets/embedded/kentrosaurus/image-011-b2d38dee.png",
         flank: "./assets/embedded/kentrosaurus/image-012-be509fe3.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/kentrosaurus/image-014-a24281c9.png",
         underside: "./assets/embedded/kentrosaurus/image-015-2697e367.png",
         eyes: "./assets/embedded/kentrosaurus/image-016-30af3f4b.png"
@@ -30,7 +30,7 @@
         dominant: "./assets/embedded/kentrosaurus/image-018-4c324142.png",
         markings: "./assets/embedded/kentrosaurus/image-019-783a50c1.png",
         flank: "./assets/embedded/kentrosaurus/image-020-8af5ed81.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/kentrosaurus/image-022-3b1308ef.png",
         underside: "./assets/embedded/kentrosaurus/image-023-9582dbc8.png",
         eyes: "./assets/embedded/kentrosaurus/image-016-30af3f4b.png"
@@ -323,3 +323,4 @@
     console.error("Kentrosaurus Pattern A/B/C preview failed:", error);
   });
 })();
+

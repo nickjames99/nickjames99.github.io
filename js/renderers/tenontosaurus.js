@@ -6,7 +6,7 @@
         dominant: "./assets/embedded/tenontosaurus/image-002-c0a22d9c.png",
         markings: "./assets/embedded/tenontosaurus/image-003-e58fdc4b.png",
         flank: "./assets/embedded/tenontosaurus/image-004-97f823d4.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/tenontosaurus/image-006-87743bef.png",
         underside: "./assets/embedded/tenontosaurus/image-007-5c4e3339.png",
         eyes: "./assets/embedded/tenontosaurus/image-008-7a6c577d.png"
@@ -18,7 +18,7 @@
         dominant: "./assets/embedded/tenontosaurus/image-010-f0a842fe.png",
         markings: "./assets/embedded/tenontosaurus/image-011-ee4e55bc.png",
         flank: "./assets/embedded/tenontosaurus/image-012-9c4681ec.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/tenontosaurus/image-014-2335a576.png",
         underside: "./assets/embedded/tenontosaurus/image-015-ececd10f.png",
         eyes: "./assets/embedded/tenontosaurus/image-016-035b8629.png"
@@ -30,7 +30,7 @@
         dominant: "./assets/embedded/tenontosaurus/image-018-1a79ef30.png",
         markings: "./assets/embedded/tenontosaurus/image-019-eb4e14a7.png",
         flank: "./assets/embedded/tenontosaurus/image-020-c0354358.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/tenontosaurus/image-022-a597b424.png",
         underside: "./assets/embedded/tenontosaurus/image-023-00e7f336.png",
         eyes: "./assets/embedded/tenontosaurus/image-016-035b8629.png"
@@ -291,3 +291,4 @@
     console.error("Tenontosaurus Pattern A/B/C preview failed:", error);
   });
 })();
+

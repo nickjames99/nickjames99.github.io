@@ -6,7 +6,7 @@
         dominant: "./assets/embedded/stegosaurus/image-002-5f6de345.png",
         markings: "./assets/embedded/stegosaurus/image-003-ec2345f2.png",
         flank: "./assets/embedded/stegosaurus/image-004-7a41fd38.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/stegosaurus/image-006-5b1ba20d.png",
         underside: "./assets/embedded/stegosaurus/image-007-e75135aa.png",
         eyes: "./assets/embedded/stegosaurus/image-008-4914bdc4.png"
@@ -18,7 +18,7 @@
         dominant: "./assets/embedded/stegosaurus/image-010-5cf2d4ac.png",
         markings: "./assets/embedded/stegosaurus/image-011-0dd8eb4b.png",
         flank: "./assets/embedded/stegosaurus/image-012-76276c44.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/stegosaurus/image-014-c4cdf4d5.png",
         underside: "./assets/embedded/stegosaurus/image-015-ee7e5edf.png",
         eyes: "./assets/embedded/stegosaurus/image-016-c79514e9.png"
@@ -30,7 +30,7 @@
         dominant: "./assets/embedded/stegosaurus/image-018-b17caf01.png",
         markings: "./assets/embedded/stegosaurus/image-019-7befdb1d.png",
         flank: "./assets/embedded/stegosaurus/image-020-4fe71a0c.png",
-        detail: "./assets/embedded/omniraptor/image-005-4fa1756f.png",
+        detail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E",
         body: "./assets/embedded/stegosaurus/image-022-4c814c1c.png",
         underside: "./assets/embedded/stegosaurus/image-023-8f73e196.png",
         eyes: "./assets/embedded/stegosaurus/image-024-12c3b2d5.png"
@@ -335,3 +335,4 @@
     console.error("Stegosaurus Pattern A/B/C preview failed:", error);
   });
 })();
+
