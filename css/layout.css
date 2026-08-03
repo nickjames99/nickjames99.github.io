@@ -319,3 +319,118 @@ input[type=color]{
     width:100% !important;
   }
 }
+
+
+/* final-interface-polish */
+.layout{
+  align-items:start;
+}
+.editor-panel,
+.side{
+  height:auto;
+}
+.preview-panel{
+  min-height:calc(100vh - 28px);
+}
+.editor-panel-head{
+  display:grid;
+  gap:12px;
+  margin-bottom:16px;
+}
+.editor-panel-head .panel-heading{
+  margin-bottom:0;
+}
+.editor-panel-head .top-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:0;
+  padding:0;
+}
+.editor-panel-head .top-actions button{
+  min-width:0;
+  min-height:42px;
+  padding:0 10px;
+  font-size:10px;
+  line-height:1.2;
+}
+.color-control-label{
+  font-size:9px !important;
+  letter-spacing:.07em !important;
+}
+.preview-title{
+  font-size:20px;
+}
+.preview-subtitle{
+  margin-top:2px;
+  color:#9b8cab;
+  font-size:11px;
+  font-weight:700;
+}
+.preview-note{
+  margin-top:5px;
+}
+.preview-controls{
+  align-items:center;
+  flex-wrap:nowrap;
+}
+.pattern-button-group::before{
+  content:"Pattern";
+  margin-right:1px;
+  color:#9d91ad;
+  font:800 8px ui-monospace,SFMono-Regular,Consolas,monospace;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.preview-stage::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  left:20%;
+  right:20%;
+  bottom:13%;
+  height:8%;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,0,0,.48) 0%,rgba(0,0,0,.18) 48%,transparent 74%);
+  filter:blur(10px);
+  pointer-events:none;
+}
+.preview-stage canvas{
+  position:relative;
+  z-index:1;
+}
+.side{
+  align-self:start;
+}
+.side textarea{
+  min-height:150px;
+}
+.code-panel{
+  padding:15px;
+}
+.creator-credit{
+  margin-bottom:0;
+  padding-bottom:0;
+}
+@media(max-width:1280px){
+  .preview-controls{
+    flex-wrap:wrap;
+  }
+}
+@media(max-width:1050px){
+  .preview-panel{
+    min-height:680px;
+  }
+}
+@media(max-width:620px){
+  .editor-panel-head .top-actions{
+    grid-template-columns:1fr;
+  }
+  .editor-panel-head .top-actions button{
+    width:100%;
+  }
+  .preview-subtitle{
+    font-size:10px;
+  }
+}
+
