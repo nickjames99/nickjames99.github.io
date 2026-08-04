@@ -170,16 +170,16 @@ if (stage && dinosaurSelect) {
         `#include <map_fragment>
         vec4 alloChannels1 = texture2D( alloMask1, vMapUv );
         vec3 alloChannels2 = texture2D( alloMask2, vMapUv ).rgb;
-        vec3 alloTint = alloDetail;
-        alloTint = mix( alloTint, alloBody, smoothstep( 0.02, 0.98, alloChannels1.a ) );
+        vec3 alloTint = alloBody;
         alloTint = mix( alloTint, alloUnderside, smoothstep( 0.02, 0.98, alloChannels2.r ) );
         alloTint = mix( alloTint, alloFlank, smoothstep( 0.02, 0.98, alloChannels1.b ) );
         alloTint = mix( alloTint, alloMarkings, smoothstep( 0.02, 0.98, alloChannels1.g ) );
         alloTint = mix( alloTint, alloDominant, smoothstep( 0.02, 0.98, alloChannels1.r ) );
+        alloTint = mix( alloTint, alloDetail, smoothstep( 0.02, 0.98, alloChannels2.g ) );
         float alloShade = clamp(
-          dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) * 0.52 + 0.82,
-          0.76,
-          1.34
+          dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) * 0.24 + 0.90,
+          0.88,
+          1.16
         );
         diffuseColor.rgb = alloTint * alloShade;`
       );
@@ -306,7 +306,7 @@ if (stage && dinosaurSelect) {
     });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.62;
+    renderer.toneMappingExposure = 1.22;
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(34, 1, 0.01, 10000);
@@ -318,14 +318,14 @@ if (stage && dinosaurSelect) {
     canvas.addEventListener("pointerdown", () => { canvas.style.cursor = "grabbing"; });
     window.addEventListener("pointerup", () => { canvas.style.cursor = "grab"; });
 
-    scene.add(new THREE.HemisphereLight(0xf1f5ff, 0x30283a, 3.25));
-    const key = new THREE.DirectionalLight(0xfff1e3, 5.1);
+    scene.add(new THREE.HemisphereLight(0xf1f5ff, 0x30283a, 2.6));
+    const key = new THREE.DirectionalLight(0xfff1e3, 3.4);
     key.position.set(4, 6, 7);
     scene.add(key);
-    const rim = new THREE.DirectionalLight(0xb9adff, 3.1);
+    const rim = new THREE.DirectionalLight(0xb9adff, 1.6);
     rim.position.set(-6, 2, -5);
     scene.add(rim);
-    const fill = new THREE.DirectionalLight(0x9ce5ff, 2.15);
+    const fill = new THREE.DirectionalLight(0x9ce5ff, 1.15);
     fill.position.set(2, -3, 4);
     scene.add(fill);
 
