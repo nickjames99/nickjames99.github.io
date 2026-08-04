@@ -35,8 +35,7 @@
     17: "Triceratops",
     18: "Troodon",
     19: "Tyrannosaurus",
-    20: "Kentrosaurus",
-    21: "Austroraptor"
+    20: "Kentrosaurus"
   };
 
   const PREVIEW_BY_SPECIES_ID = {
@@ -60,8 +59,7 @@
     17: "trike",
     18: "troodon",
     19: "trex",
-    20: "kentro",
-    21: "austro"
+    20: "kentro"
   };
 
   const PATTERN_BY_BYTE = {
@@ -265,7 +263,6 @@
 
   updatePatternOptions();
 })();
-
 
 
 

@@ -8,7 +8,8 @@
 
   const SPECIES = Object.freeze({
     allo: ["0", "AQEA"],
-    austro: ["21", "AQEV"],
+    // Austroraptor has no assigned skin-code species yet. Use Allosaurus.
+    austro: ["0", "AQEA"],
     beipi: ["1", "AQEB"],
     carno: ["2", "AQEC"],
     cerato: ["3", "AQED"],

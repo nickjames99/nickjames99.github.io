@@ -5,11 +5,6 @@
       prefix: "AQEA",
       previewId: "allo"
     },
-    Austroraptor: {
-      speciesId: "21",
-      prefix: "AQEV",
-      previewId: "austro"
-    },
     Beipiaosaurus: {
       speciesId: "1",
       prefix: "AQEB",
@@ -164,7 +159,7 @@
 
   function readHeader(code) {
     const normalized = String(code || "").trim();
-    const match = normalized.match(/^ISL1\.(AQE[A-V])(Aw|Ac|Ag|BA|BQ)/);
+    const match = normalized.match(/^ISL1\.(AQE[A-U])(Aw|Ac|Ag|BA|BQ)/);
 
     if (!match) return null;
 
@@ -185,7 +180,6 @@
 
     const dedicatedPreviewSpecies = new Set([
       "Allosaurus",
-      "Austroraptor",
       "Beipiaosaurus",
       "Carnotaurus",
       "Ceratosaurus",
@@ -278,7 +272,7 @@
 
     const replacement = `ISL1.${species.prefix}${pattern}`;
     const updated = current.replace(
-      /^ISL1\.AQE[A-V](?:Aw|Ac|Ag|BA|BQ)/,
+      /^ISL1\.AQE[A-U](?:Aw|Ac|Ag|BA|BQ)/,
       replacement
     );
 
@@ -340,7 +334,6 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
-
 
 
 

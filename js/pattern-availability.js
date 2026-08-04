@@ -5,7 +5,7 @@
 
   if (!speciesSelect || !patternSelect) return;
 
-  const D_SUPPORTED = new Set(["2", "9", "12", "13", "21"]);
+  const D_SUPPORTED = new Set(["2", "9", "12", "13"]);
   const E_SUPPORTED = new Set(["12"]);
 
   function updatePatternAvailability() {
@@ -13,11 +13,12 @@
     const optionD = patternSelect.querySelector('option[value="D"]');
     const optionE = patternSelect.querySelector('option[value="E"]');
 
-    if (optionD) optionD.disabled = !D_SUPPORTED.has(speciesId);
+    const supportsD = D_SUPPORTED.has(speciesId) || dinosaurSelect?.value === "austro";
+    if (optionD) optionD.disabled = !supportsD;
     if (optionE) optionE.disabled = !E_SUPPORTED.has(speciesId);
 
     if (
-      (patternSelect.value === "D" && !D_SUPPORTED.has(speciesId)) ||
+      (patternSelect.value === "D" && !supportsD) ||
       (patternSelect.value === "E" && !E_SUPPORTED.has(speciesId))
     ) {
       patternSelect.value = "B";

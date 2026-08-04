@@ -12,10 +12,6 @@ if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="austro"]')) {
   const option = new Option("Austroraptor", "austro");
   dinosaurSelect.querySelector('option[value="beipi"]')?.before(option);
 }
-const speciesSelect = document.getElementById("speciesSelect");
-if (speciesSelect && !speciesSelect.querySelector('option[value="21"]')) {
-  speciesSelect.add(new Option("Austroraptor", "21"));
-}
 
 if (stage && dinosaurSelect) {
   // Austroraptor is 3D-only. The shadow root prevents legacy preview code
