@@ -248,6 +248,7 @@ if (stage && dinosaurSelect) {
   function keepThreeDimensionalPreviewVisible() {
     if (!isAllosaurus()) return;
     active = true;
+    if (!canvas.isConnected) stage.appendChild(canvas);
     stage.querySelectorAll(":scope > canvas").forEach(item => {
       item.style.setProperty(
         "display",
@@ -257,6 +258,16 @@ if (stage && dinosaurSelect) {
     });
     status.style.display = loaded ? "none" : "block";
     startRendering();
+  }
+
+  function alloCanvasWasHidden() {
+    if (!isAllosaurus()) return false;
+    if (!canvas.isConnected || getComputedStyle(canvas).display === "none") {
+      return true;
+    }
+    return [...stage.querySelectorAll(":scope > canvas")].some(item =>
+      item !== canvas && getComputedStyle(item).display !== "none"
+    );
   }
 
   function keepVisibleAfterLegacyRenderer() {
@@ -428,6 +439,28 @@ if (stage && dinosaurSelect) {
   pickerContainer?.addEventListener("change", () => {
     updateLiveMaterial();
     keepVisibleAfterLegacyRenderer();
+  });
+  pickerContainer?.addEventListener("focusout", () => {
+    requestAnimationFrame(keepThreeDimensionalPreviewVisible);
+    setTimeout(keepThreeDimensionalPreviewVisible, 0);
+  });
+
+  // The older 2D renderer can change canvas styles after the color picker has
+  // closed. Watch only for an actual visibility conflict, then immediately
+  // restore the 3D canvas without reloading the model or its textures.
+  const stageObserver = new MutationObserver(() => {
+    if (alloCanvasWasHidden()) {
+      requestAnimationFrame(keepThreeDimensionalPreviewVisible);
+    }
+  });
+  stageObserver.observe(stage, {
+    childList: true,
+    subtree: false,
+    attributes: true,
+    attributeFilter: ["class", "style"]
+  });
+  window.addEventListener("focus", () => {
+    if (isAllosaurus()) keepVisibleAfterLegacyRenderer();
   });
 
   requestAnimationFrame(updateVisibility);
