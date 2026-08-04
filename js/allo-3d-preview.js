@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import "./austroraptor-3d-preview.js";
+import "./beipiaosaurus-3d-preview.js";
 
 const stage = document.querySelector(".preview-stage");
 const dinosaurSelect = document.getElementById("dinoSelect");
