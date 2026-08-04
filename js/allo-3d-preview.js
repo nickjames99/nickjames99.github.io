@@ -9,6 +9,10 @@ const sexSelect = document.getElementById("sexSelect");
 const pickerContainer = document.getElementById("pickers");
 
 if (stage && dinosaurSelect) {
+  // Allosaurus is 3D-only. Detaching the legacy canvas prevents its older
+  // renderer from ever flashing over the WebGL view during color updates.
+  document.getElementById("alloPreview")?.remove();
+
   const canvas = document.createElement("canvas");
   canvas.id = "allo3dPreview";
   canvas.setAttribute("aria-label", "Interactive 3D Allosaurus preview");
@@ -62,6 +66,23 @@ if (stage && dinosaurSelect) {
   let legacyVisibilityTimer = 0;
   let finalVisibilityTimer = 0;
 
+  const fallbackMask1 = new THREE.DataTexture(
+    new Uint8Array([0, 0, 0, 255]),
+    1,
+    1,
+    THREE.RGBAFormat
+  );
+  const fallbackMask2 = new THREE.DataTexture(
+    new Uint8Array([0, 0, 0, 255]),
+    1,
+    1,
+    THREE.RGBAFormat
+  );
+  [fallbackMask1, fallbackMask2].forEach(texture => {
+    texture.colorSpace = THREE.NoColorSpace;
+    texture.needsUpdate = true;
+  });
+
   const CHANNELS = [
     "dominant", "markings", "flank", "detail",
     "body", "underside", "eyes"
@@ -102,7 +123,13 @@ if (stage && dinosaurSelect) {
         });
       });
     });
-    await Promise.all(tasks);
+    const results = await Promise.allSettled(tasks);
+    const failedMasks = results.filter(result => result.status === "rejected");
+    if (failedMasks.length) {
+      console.warn(
+        `Allosaurus 3D preview continued with ${failedMasks.length} missing mask texture(s).`
+      );
+    }
   }
 
   function activeMasks() {
@@ -111,8 +138,8 @@ if (stage && dinosaurSelect) {
       : "a";
     const sex = sexSelect?.value === "female" ? "female" : "male";
     return {
-      first: maskTextures.get(`${pattern}-${sex}-1`),
-      second: maskTextures.get(`${pattern}-${sex}-2`)
+      first: maskTextures.get(`${pattern}-${sex}-1`) || fallbackMask1,
+      second: maskTextures.get(`${pattern}-${sex}-2`) || fallbackMask2
     };
   }
 
@@ -367,7 +394,10 @@ if (stage && dinosaurSelect) {
       },
       progress => {
         if (!progress.total) return;
-        const percent = Math.round(progress.loaded / progress.total * 100);
+        const percent = Math.min(
+          100,
+          Math.round(progress.loaded / progress.total * 100)
+        );
         status.textContent = `Loading Allosaurus 3D · ${percent}%`;
       },
       error => {
