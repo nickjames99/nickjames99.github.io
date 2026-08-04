@@ -12,7 +12,8 @@ const viewerModules = Object.freeze({
   dilo: "./dinos/dilophosaurus-3d-preview.js",
   omniraptor: "./dinos/omniraptor-3d-preview.js",
   dryo: "./dinos/dryosaurus-3d-preview.js",
-  galli: "./dinos/gallimimus-3d-preview.js"
+  galli: "./dinos/gallimimus-3d-preview.js",
+  herra: "./dinos/herrerasaurus-3d-preview.js"
 });
 
 const loadedViewers = new Map();
