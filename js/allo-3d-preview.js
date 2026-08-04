@@ -358,10 +358,15 @@ if (stage && dinosaurSelect) {
     controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
     controls.dampingFactor = 0.075;
-    controls.enablePan = false;
+    controls.enablePan = true;
+    controls.screenSpacePanning = true;
+    controls.mouseButtons.LEFT = THREE.MOUSE.ROTATE;
+    controls.mouseButtons.MIDDLE = THREE.MOUSE.DOLLY;
+    controls.mouseButtons.RIGHT = THREE.MOUSE.PAN;
 
     canvas.addEventListener("pointerdown", () => { canvas.style.cursor = "grabbing"; });
     window.addEventListener("pointerup", () => { canvas.style.cursor = "grab"; });
+    canvas.addEventListener("contextmenu", event => event.preventDefault());
 
     scene.add(new THREE.HemisphereLight(0xf1f5ff, 0x30283a, 2.6));
     const key = new THREE.DirectionalLight(0xfff1e3, 3.4);
