@@ -35,7 +35,8 @@
     17: "Triceratops",
     18: "Troodon",
     19: "Tyrannosaurus",
-    20: "Kentrosaurus"
+    20: "Kentrosaurus",
+    21: "Austroraptor"
   };
 
   const PREVIEW_BY_SPECIES_ID = {
@@ -59,7 +60,8 @@
     17: "trike",
     18: "troodon",
     19: "trex",
-    20: "kentro"
+    20: "kentro",
+    21: "austro"
   };
 
   const PATTERN_BY_BYTE = {
@@ -84,6 +86,7 @@
     dilo: ["A", "B", "C"],
     beipi: ["A", "B", "C"],
     allo: ["A", "B", "C"],
+    austro: ["A", "B", "C", "D"],
     carno: ["A", "B", "C", "D"],
     hypsi: ["A", "B", "C"],
     kentro: ["A", "B", "C"],

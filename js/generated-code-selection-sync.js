@@ -8,6 +8,7 @@
 
   const SPECIES = Object.freeze({
     allo: ["0", "AQEA"],
+    austro: ["21", "AQEV"],
     beipi: ["1", "AQEB"],
     carno: ["2", "AQEC"],
     cerato: ["3", "AQED"],
