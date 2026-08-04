@@ -58,6 +58,9 @@ if (stage && dinosaurSelect) {
   let failed = false;
   let active = false;
   let frameId = 0;
+  let visibilityFrame = 0;
+  let legacyVisibilityTimer = 0;
+  let finalVisibilityTimer = 0;
 
   const CHANNELS = [
     "dominant", "markings", "flank", "detail",
@@ -127,7 +130,6 @@ if (stage && dinosaurSelect) {
     bodyShader.uniforms.alloUnderside.value.copy(colors.underside);
     eyeMaterials.forEach(material => {
       material.color.copy(colors.eyes);
-      material.needsUpdate = true;
     });
   }
 
@@ -165,9 +167,9 @@ if (stage && dinosaurSelect) {
         alloTint = mix( alloTint, alloMarkings, smoothstep( 0.02, 0.98, alloChannels1.g ) );
         alloTint = mix( alloTint, alloDominant, smoothstep( 0.02, 0.98, alloChannels1.r ) );
         float alloShade = clamp(
-          dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) * 1.12 + 0.24,
-          0.18,
-          1.34
+          dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) * 1.28 + 0.58,
+          0.52,
+          1.52
         );
         diffuseColor.rgb = alloTint * alloShade;`
       );
@@ -213,6 +215,30 @@ if (stage && dinosaurSelect) {
     status.style.display = loaded ? "none" : "block";
     resize();
     startRendering();
+  }
+
+  function keepThreeDimensionalPreviewVisible() {
+    if (!isAllosaurus() || failed) return;
+    active = true;
+    stage.querySelectorAll(":scope > canvas").forEach(item => {
+      item.style.setProperty(
+        "display",
+        item === canvas ? "block" : "none",
+        "important"
+      );
+    });
+    status.style.display = loaded ? "none" : "block";
+    startRendering();
+  }
+
+  function keepVisibleAfterLegacyRenderer() {
+    keepThreeDimensionalPreviewVisible();
+    cancelAnimationFrame(visibilityFrame);
+    clearTimeout(legacyVisibilityTimer);
+    clearTimeout(finalVisibilityTimer);
+    visibilityFrame = requestAnimationFrame(keepThreeDimensionalPreviewVisible);
+    legacyVisibilityTimer = setTimeout(keepThreeDimensionalPreviewVisible, 175);
+    finalVisibilityTimer = setTimeout(keepThreeDimensionalPreviewVisible, 300);
   }
 
   function resize() {
@@ -270,7 +296,7 @@ if (stage && dinosaurSelect) {
     });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.45;
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(34, 1, 0.01, 10000);
@@ -282,14 +308,14 @@ if (stage && dinosaurSelect) {
     canvas.addEventListener("pointerdown", () => { canvas.style.cursor = "grabbing"; });
     window.addEventListener("pointerup", () => { canvas.style.cursor = "grab"; });
 
-    scene.add(new THREE.HemisphereLight(0xdde8ff, 0x160f20, 2.1));
-    const key = new THREE.DirectionalLight(0xffead7, 3.6);
+    scene.add(new THREE.HemisphereLight(0xf1f5ff, 0x30283a, 3.25));
+    const key = new THREE.DirectionalLight(0xfff1e3, 5.1);
     key.position.set(4, 6, 7);
     scene.add(key);
-    const rim = new THREE.DirectionalLight(0x9f8cff, 2.2);
+    const rim = new THREE.DirectionalLight(0xb9adff, 3.1);
     rim.position.set(-6, 2, -5);
     scene.add(rim);
-    const fill = new THREE.DirectionalLight(0x72d8ff, 1.2);
+    const fill = new THREE.DirectionalLight(0x9ce5ff, 2.15);
     fill.position.set(2, -3, 4);
     scene.add(fill);
 
@@ -350,19 +376,19 @@ if (stage && dinosaurSelect) {
   });
   patternSelect?.addEventListener("change", () => {
     updateLiveMaterial();
-    requestAnimationFrame(updateVisibility);
+    keepVisibleAfterLegacyRenderer();
   });
   sexSelect?.addEventListener("change", () => {
     updateLiveMaterial();
-    requestAnimationFrame(updateVisibility);
+    keepVisibleAfterLegacyRenderer();
   });
   pickerContainer?.addEventListener("input", () => {
     updateLiveMaterial();
-    requestAnimationFrame(updateVisibility);
+    keepVisibleAfterLegacyRenderer();
   });
   pickerContainer?.addEventListener("change", () => {
     updateLiveMaterial();
-    requestAnimationFrame(updateVisibility);
+    keepVisibleAfterLegacyRenderer();
   });
 
   requestAnimationFrame(updateVisibility);
