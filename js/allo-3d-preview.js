@@ -11,6 +11,7 @@ import "./pteranodon-3d-preview.js";
 import "./dilophosaurus-3d-preview.js";
 import "./omniraptor-3d-preview.js";
 import "./dryosaurus-3d-preview.js";
+import "./gallimimus-3d-preview.js";
 
 const stage = document.querySelector(".preview-stage");
 const dinosaurSelect = document.getElementById("dinoSelect");
