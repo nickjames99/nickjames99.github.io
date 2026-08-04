@@ -1,18 +1,18 @@
 const dinosaurSelect = document.getElementById("dinoSelect");
 
 const viewerModules = Object.freeze({
-  allo: "./allosaurus-3d-preview.js",
-  austro: "./austroraptor-3d-preview.js",
-  beipi: "./beipiaosaurus-3d-preview.js",
-  carno: "./carnotaurus-3d-preview.js",
-  deino: "./deinosuchus-3d-preview.js",
-  dibble: "./diabloceratops-3d-preview.js",
-  cerato: "./ceratosaurus-3d-preview.js",
-  ptera: "./pteranodon-3d-preview.js",
-  dilo: "./dilophosaurus-3d-preview.js",
-  omniraptor: "./omniraptor-3d-preview.js",
-  dryo: "./dryosaurus-3d-preview.js",
-  galli: "./gallimimus-3d-preview.js"
+  allo: "./dinos/allosaurus-3d-preview.js",
+  austro: "./dinos/austroraptor-3d-preview.js",
+  beipi: "./dinos/beipiaosaurus-3d-preview.js",
+  carno: "./dinos/carnotaurus-3d-preview.js",
+  deino: "./dinos/deinosuchus-3d-preview.js",
+  dibble: "./dinos/diabloceratops-3d-preview.js",
+  cerato: "./dinos/ceratosaurus-3d-preview.js",
+  ptera: "./dinos/pteranodon-3d-preview.js",
+  dilo: "./dinos/dilophosaurus-3d-preview.js",
+  omniraptor: "./dinos/omniraptor-3d-preview.js",
+  dryo: "./dinos/dryosaurus-3d-preview.js",
+  galli: "./dinos/gallimimus-3d-preview.js"
 });
 
 const loadedViewers = new Map();
