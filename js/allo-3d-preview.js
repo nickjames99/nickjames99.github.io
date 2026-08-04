@@ -195,18 +195,13 @@ if (stage && dinosaurSelect) {
     return dinosaurSelect.value === "allo";
   }
 
-  function showFallback() {
-    canvas.style.setProperty("display", "none", "important");
-    status.style.display = "none";
-    document.getElementById("alloPreview")?.style.setProperty(
-      "display",
-      "block",
-      "important"
-    );
+  function showThreeDimensionalError() {
+    status.textContent = "Allosaurus 3D preview could not be loaded";
+    updateVisibility();
   }
 
   function updateVisibility() {
-    active = isAllosaurus() && !failed;
+    active = isAllosaurus();
 
     if (!active) {
       canvas.style.setProperty("display", "none", "important");
@@ -228,7 +223,7 @@ if (stage && dinosaurSelect) {
   }
 
   function keepThreeDimensionalPreviewVisible() {
-    if (!isAllosaurus() || failed) return;
+    if (!isAllosaurus()) return;
     active = true;
     stage.querySelectorAll(":scope > canvas").forEach(item => {
       item.style.setProperty(
@@ -378,8 +373,7 @@ if (stage && dinosaurSelect) {
       error => {
         console.error("Allosaurus 3D preview failed:", error);
         failed = true;
-        active = false;
-        showFallback();
+        showThreeDimensionalError();
       }
     );
 
@@ -387,7 +381,7 @@ if (stage && dinosaurSelect) {
   } catch (error) {
     console.error("WebGL initialization failed:", error);
     failed = true;
-    showFallback();
+    showThreeDimensionalError();
   }
 
   dinosaurSelect.addEventListener("change", () => {
