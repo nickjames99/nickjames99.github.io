@@ -7,6 +7,7 @@ import "./carnotaurus-3d-preview.js";
 import "./deinosuchus-3d-preview.js";
 import "./diabloceratops-3d-preview.js";
 import "./ceratosaurus-3d-preview.js";
+import "./pteranodon-3d-preview.js";
 
 const stage = document.querySelector(".preview-stage");
 const dinosaurSelect = document.getElementById("dinoSelect");
