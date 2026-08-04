@@ -136,6 +136,16 @@ if (stage && dinosaurSelect) {
   function installBodyShader(material) {
     const colors = editorColors();
     const masks = activeMasks();
+    // Source's exponent texture is not a glTF metallic/roughness texture.
+    // Using it as one makes the dinosaur look black and mirror-like.
+    material.metalness = 0;
+    material.metalnessMap = null;
+    material.roughness = 0.72;
+    material.roughnessMap = null;
+    material.envMapIntensity = 0.28;
+    if ("specularIntensity" in material) material.specularIntensity = 0.28;
+    if ("specularIntensityMap" in material) material.specularIntensityMap = null;
+    if ("specularColorMap" in material) material.specularColorMap = null;
     material.onBeforeCompile = shader => {
       shader.uniforms.alloMask1 = { value: masks.first };
       shader.uniforms.alloMask2 = { value: masks.second };
@@ -167,9 +177,9 @@ if (stage && dinosaurSelect) {
         alloTint = mix( alloTint, alloMarkings, smoothstep( 0.02, 0.98, alloChannels1.g ) );
         alloTint = mix( alloTint, alloDominant, smoothstep( 0.02, 0.98, alloChannels1.r ) );
         float alloShade = clamp(
-          dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) * 1.28 + 0.58,
-          0.52,
-          1.52
+          dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) * 0.52 + 0.82,
+          0.76,
+          1.34
         );
         diffuseColor.rgb = alloTint * alloShade;`
       );
@@ -296,7 +306,7 @@ if (stage && dinosaurSelect) {
     });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.45;
+    renderer.toneMappingExposure = 1.62;
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(34, 1, 0.01, 10000);
@@ -340,7 +350,16 @@ if (stage && dinosaurSelect) {
           materials.filter(Boolean).forEach(material => {
             material.side = THREE.DoubleSide;
             if (/body/i.test(material.name)) installBodyShader(material);
-            if (/eye/i.test(material.name)) eyeMaterials.push(material);
+            if (/eye/i.test(material.name)) {
+              material.metalness = 0;
+              material.metalnessMap = null;
+              material.roughness = 0.48;
+              material.roughnessMap = null;
+              if ("specularIntensity" in material) {
+                material.specularIntensity = 0.38;
+              }
+              eyeMaterials.push(material);
+            }
             material.needsUpdate = true;
           });
         });
