@@ -13,20 +13,29 @@ if (stage && dinosaurSelect) {
   // renderer from ever flashing over the WebGL view during color updates.
   document.getElementById("alloPreview")?.remove();
 
+  // Keep WebGL inside a shadow root so legacy 2D selectors cannot find,
+  // resize, clear, or hide its canvas while handling picker/pointer events.
+  const canvasHost = document.createElement("div");
+  canvasHost.id = "allo3dPreviewHost";
+  canvasHost.style.cssText = [
+    "position:absolute",
+    "inset:0",
+    "display:none",
+    "z-index:6"
+  ].join(";");
+  const canvasRoot = canvasHost.attachShadow({ mode: "open" });
   const canvas = document.createElement("canvas");
   canvas.id = "allo3dPreview";
   canvas.setAttribute("aria-label", "Interactive 3D Allosaurus preview");
   canvas.style.cssText = [
-    "position:absolute",
-    "inset:0",
+    "display:block",
     "width:100%",
     "height:100%",
-    "display:none",
-    "z-index:6",
     "cursor:grab",
     "touch-action:none"
   ].join(";");
-  stage.appendChild(canvas);
+  canvasRoot.appendChild(canvas);
+  stage.appendChild(canvasHost);
 
   const status = document.createElement("div");
   status.className = "allo-3d-status";
@@ -227,7 +236,7 @@ if (stage && dinosaurSelect) {
     active = isAllosaurus();
 
     if (!active) {
-      canvas.style.setProperty("display", "none", "important");
+      canvasHost.style.setProperty("display", "none", "important");
       status.style.display = "none";
       return;
     }
@@ -235,10 +244,11 @@ if (stage && dinosaurSelect) {
     stage.querySelectorAll(":scope > canvas").forEach(item => {
       item.style.setProperty(
         "display",
-        item === canvas ? "block" : "none",
+        "none",
         "important"
       );
     });
+    canvasHost.style.setProperty("display", "block", "important");
 
     status.style.display = loaded ? "none" : "block";
     resize();
@@ -248,21 +258,27 @@ if (stage && dinosaurSelect) {
   function keepThreeDimensionalPreviewVisible() {
     if (!isAllosaurus()) return;
     active = true;
-    if (!canvas.isConnected) stage.appendChild(canvas);
+    if (!canvasHost.isConnected) stage.appendChild(canvasHost);
+    if (!canvas.isConnected) canvasRoot.appendChild(canvas);
     stage.querySelectorAll(":scope > canvas").forEach(item => {
       item.style.setProperty(
         "display",
-        item === canvas ? "block" : "none",
+        "none",
         "important"
       );
     });
+    canvasHost.style.setProperty("display", "block", "important");
     status.style.display = loaded ? "none" : "block";
     startRendering();
   }
 
   function alloCanvasWasHidden() {
     if (!isAllosaurus()) return false;
-    if (!canvas.isConnected || getComputedStyle(canvas).display === "none") {
+    if (
+      !canvasHost.isConnected ||
+      !canvas.isConnected ||
+      getComputedStyle(canvasHost).display === "none"
+    ) {
       return true;
     }
     return [...stage.querySelectorAll(":scope > canvas")].some(item =>
