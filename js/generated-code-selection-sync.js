@@ -70,8 +70,22 @@
     setTimeout(synchronize, 80);
   }
 
-  dinosaurSelect.addEventListener("change", synchronizeAfterHandlers);
-  patternSelect.addEventListener("change", synchronizeAfterHandlers);
+  function regenerateFromSelection() {
+    synchronize();
+
+    // The original editor rebuilds the complete code from color-input events.
+    // Reuse that path without changing the selected color.
+    const firstColor = document.querySelector('#pickers input[type="color"]');
+    if (firstColor) {
+      firstColor.dispatchEvent(new Event("input", { bubbles: true }));
+      firstColor.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    synchronizeAfterHandlers();
+  }
+
+  dinosaurSelect.addEventListener("change", regenerateFromSelection);
+  patternSelect.addEventListener("change", regenerateFromSelection);
   document.getElementById("pickers")?.addEventListener("input", synchronize);
   document.getElementById("pickers")?.addEventListener("change", synchronizeAfterHandlers);
 
