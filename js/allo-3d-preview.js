@@ -152,7 +152,6 @@ if (stage && dinosaurSelect) {
     bodyShader.uniforms.alloDominant.value.copy(colors.dominant);
     bodyShader.uniforms.alloMarkings.value.copy(colors.markings);
     bodyShader.uniforms.alloFlank.value.copy(colors.flank);
-    bodyShader.uniforms.alloDetail.value.copy(colors.detail);
     bodyShader.uniforms.alloBody.value.copy(colors.body);
     bodyShader.uniforms.alloUnderside.value.copy(colors.underside);
     eyeMaterials.forEach(material => {
@@ -179,7 +178,6 @@ if (stage && dinosaurSelect) {
       shader.uniforms.alloDominant = { value: colors.dominant.clone() };
       shader.uniforms.alloMarkings = { value: colors.markings.clone() };
       shader.uniforms.alloFlank = { value: colors.flank.clone() };
-      shader.uniforms.alloDetail = { value: colors.detail.clone() };
       shader.uniforms.alloBody = { value: colors.body.clone() };
       shader.uniforms.alloUnderside = { value: colors.underside.clone() };
       shader.fragmentShader = `
@@ -188,21 +186,19 @@ if (stage && dinosaurSelect) {
         uniform vec3 alloDominant;
         uniform vec3 alloMarkings;
         uniform vec3 alloFlank;
-        uniform vec3 alloDetail;
         uniform vec3 alloBody;
         uniform vec3 alloUnderside;
       ` + shader.fragmentShader;
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <map_fragment>",
         `#include <map_fragment>
-        vec4 alloChannels1 = texture2D( alloMask1, vMapUv );
+        vec3 alloChannels1 = texture2D( alloMask1, vMapUv ).rgb;
         vec3 alloChannels2 = texture2D( alloMask2, vMapUv ).rgb;
         vec3 alloTint = alloBody;
-        alloTint = mix( alloTint, alloUnderside, smoothstep( 0.02, 0.98, alloChannels2.r ) );
+        alloTint = mix( alloTint, alloUnderside, smoothstep( 0.02, 0.98, alloChannels2.g ) );
         alloTint = mix( alloTint, alloFlank, smoothstep( 0.02, 0.98, alloChannels1.b ) );
         alloTint = mix( alloTint, alloMarkings, smoothstep( 0.02, 0.98, alloChannels1.g ) );
         alloTint = mix( alloTint, alloDominant, smoothstep( 0.02, 0.98, alloChannels1.r ) );
-        alloTint = mix( alloTint, alloDetail, smoothstep( 0.02, 0.98, alloChannels2.g ) );
         float alloShade = clamp(
           dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) * 0.24 + 0.90,
           0.88,
@@ -213,7 +209,7 @@ if (stage && dinosaurSelect) {
       bodyShader = shader;
       updateLiveMaterial();
     };
-    material.customProgramCacheKey = () => "allosaurus-live-colors-v2";
+    material.customProgramCacheKey = () => "allosaurus-original-layer-masks-v3";
     material.color.set(0xffffff);
     material.needsUpdate = true;
   }
