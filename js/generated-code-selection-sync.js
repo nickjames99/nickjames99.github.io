@@ -30,20 +30,36 @@
     kentro: ["20", "AQEU"]
   });
 
-  const PATTERNS = Object.freeze({
-    A: "Aw",
-    B: "Ac",
-    C: "Ag",
-    D: "BA",
-    E: "BQ"
+  const PATTERN_BYTES = Object.freeze({
+    A: 3,
+    B: 1,
+    C: 2,
+    D: 4,
+    E: 5
   });
+
+  function decodePayload(payload) {
+    const standard = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = standard + "=".repeat((4 - standard.length % 4) % 4);
+    const binary = atob(padded);
+    return Uint8Array.from(binary, character => character.charCodeAt(0));
+  }
+
+  function encodePayload(bytes) {
+    let binary = "";
+    bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+    return btoa(binary)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  }
 
   function synchronize() {
     const species = SPECIES[dinosaurSelect.value];
     if (!species) return;
 
-    const [speciesId, prefix] = species;
-    const patternToken = PATTERNS[patternSelect.value] || PATTERNS.B;
+    const [speciesId] = species;
+    const patternByte = PATTERN_BYTES[patternSelect.value] || PATTERN_BYTES.B;
 
     // The live-preview selection is the source of truth. This also corrects
     // legacy renderers that write their own species ID during a render.
@@ -54,13 +70,18 @@
     const current = String(codeOutput.value || "");
     if (!current.startsWith("ISL1.")) return;
 
-    const header = `ISL1.${prefix}${patternToken}`;
-    const updated = current.replace(
-      /^ISL1\.AQE[A-U](?:Aw|Ac|Ag|BA|BQ)/,
-      header
-    );
+    try {
+      const bytes = decodePayload(current.slice(5));
+      if (bytes.length < 4) return;
 
-    if (updated !== current) codeOutput.value = updated;
+      bytes[2] = Number(speciesId);
+      bytes[3] = patternByte;
+
+      const updated = `ISL1.${encodePayload(bytes)}`;
+      if (updated !== current) codeOutput.value = updated;
+    } catch (error) {
+      console.error("Generated code species/pattern sync failed:", error);
+    }
   }
 
   function synchronizeAfterHandlers() {
@@ -85,7 +106,11 @@
   }
 
   dinosaurSelect.addEventListener("change", regenerateFromSelection);
-  patternSelect.addEventListener("change", regenerateFromSelection);
+  patternSelect.addEventListener("change", regenerateFromSelection, true);
+  document.addEventListener("click", event => {
+    if (!event.target.closest(".pattern-choice-button")) return;
+    setTimeout(regenerateFromSelection, 0);
+  }, true);
   document.getElementById("pickers")?.addEventListener("input", synchronize);
   document.getElementById("pickers")?.addEventListener("change", synchronizeAfterHandlers);
 
