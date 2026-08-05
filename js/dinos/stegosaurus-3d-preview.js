@@ -123,7 +123,7 @@ if (stage && dinosaurSelect) {
         [1, 2].forEach(set => {
           const key = `${pattern}-${sex}-${set}`;
           const source =
-            `./assets/textures/stegosaurus/${pattern}-${sex}-channels-${set}.png`;
+            `./assets/textures/stegosaurus/${pattern}-${sex}-channels-${set}.png?v=extended-patterns-3`;
           tasks.push(
             textureLoader.loadAsync(source).then(texture => {
               maskTextures.set(key, prepareMask(texture));
@@ -220,7 +220,7 @@ if (stage && dinosaurSelect) {
       bodyShaders.push(shader);
       updateLiveMaterial();
     };
-    material.customProgramCacheKey = () => "stegosaurus-original-layer-masks-v1";
+    material.customProgramCacheKey = () => "stegosaurus-original-layer-masks-v3";
     material.color.set(0xffffff);
     material.needsUpdate = true;
   }
