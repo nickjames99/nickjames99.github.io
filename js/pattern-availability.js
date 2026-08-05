@@ -29,7 +29,7 @@
     const speciesId = String(speciesSelect.value);
 
     const previewId = dinosaurSelect?.value;
-    const onlyPatternA = ["camara", "ava"].includes(previewId);
+    const onlyPatternA = ["camara", "ava", "quetz"].includes(previewId);
     [optionB, optionC].forEach(option => {
       if (!option) return;
       option.disabled = onlyPatternA;

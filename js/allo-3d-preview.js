@@ -51,6 +51,17 @@ if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="ava"]')) {
   anchor?.after(option);
 }
 
+if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="quetz"]')) {
+  const option = document.createElement("option");
+  option.value = "quetz";
+  option.textContent = "Quetzalcoatlus";
+  const anchor =
+    dinosaurSelect.querySelector('option[value="ptera"]') ||
+    dinosaurSelect.querySelector('option[value="ovi"]') ||
+    dinosaurSelect.querySelector('option[value="allo"]');
+  anchor?.after(option);
+}
+
 const viewerModules = Object.freeze({
   allo: "./dinos/allosaurus-3d-preview.js",
   austro: "./dinos/austroraptor-3d-preview.js",
@@ -77,7 +88,8 @@ const viewerModules = Object.freeze({
   bary: "./dinos/baryonyx-3d-preview.js",
   ovi: "./dinos/oviraptor-3d-preview.js",
   camara: "./dinos/camarasaurus-3d-preview.js",
-  ava: "./dinos/avaceratops-3d-preview.js"
+  ava: "./dinos/avaceratops-3d-preview.js",
+  quetz: "./dinos/quetzalcoatlus-3d-preview.js"
 });
 
 const loadedViewers = new Map();

@@ -313,7 +313,7 @@
   });
 
   dinosaurSelect.addEventListener("change", () => {
-    if (["austro", "bary", "ovi", "camara", "ava"].includes(dinosaurSelect.value)) {
+    if (["austro", "bary", "ovi", "camara", "ava", "quetz"].includes(dinosaurSelect.value)) {
       // These preview-only species do not have native ISL1 headers yet.
       // Keep all of their generated codes on the Allosaurus header.
       speciesSelect.value = "0";
@@ -349,7 +349,6 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
-
 
 
 
