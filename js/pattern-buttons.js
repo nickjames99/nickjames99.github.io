@@ -3,6 +3,18 @@
   if (!select) return;
 
   const patterns = ["A", "B", "C", "D", "E"];
+  const forcedPatterns = Object.freeze({
+    stego: new Set(["A", "B", "C", "D"]),
+    stegosaurus: new Set(["A", "B", "C", "D"]),
+    pachy: new Set(["A", "B", "C", "D", "E"]),
+    pachycephalosaurus: new Set(["A", "B", "C", "D", "E"]),
+    bary: new Set(["A", "B", "C", "D", "E"]),
+    baryonyx: new Set(["A", "B", "C", "D", "E"]),
+    camara: new Set(["A"]),
+    ava: new Set(["A"]),
+    quetz: new Set(["A"])
+  });
+  const dinosaurSelect = document.getElementById("dinoSelect");
   const group = document.createElement("div");
   group.className = "pattern-button-group";
   group.setAttribute("role", "group");
@@ -93,9 +105,12 @@
   document.head.append(style);
 
   function syncButtons() {
+    const forced = forcedPatterns[dinosaurSelect?.value];
     patterns.forEach(pattern => {
       const option = [...select.options].find(item => item.value === pattern);
-      const available = Boolean(option && !option.disabled && !option.hidden);
+      const available = forced
+        ? forced.has(pattern)
+        : Boolean(option && !option.disabled && !option.hidden);
       const button = buttons.get(pattern);
       const active = available && select.value === pattern;
 
@@ -110,7 +125,7 @@
   }
 
   select.addEventListener("change", syncButtons);
-  document.getElementById("dinoSelect")?.addEventListener("change", () => {
+  dinosaurSelect?.addEventListener("change", () => {
     requestAnimationFrame(syncButtons);
     setTimeout(syncButtons, 0);
   });
