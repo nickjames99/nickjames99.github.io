@@ -14,8 +14,8 @@
     const optionE = patternSelect.querySelector('option[value="E"]');
 
     const previewId = dinosaurSelect?.value;
-    const supportsD = D_SUPPORTED.has(speciesId) || ["austro", "stego"].includes(previewId);
-    const supportsE = E_SUPPORTED.has(speciesId) || previewId === "pachy";
+    const supportsD = D_SUPPORTED.has(speciesId) || ["austro", "stego", "bary"].includes(previewId);
+    const supportsE = E_SUPPORTED.has(speciesId) || ["pachy", "bary"].includes(previewId);
     if (optionD) optionD.disabled = !supportsD;
     if (optionE) optionE.disabled = !supportsE;
 

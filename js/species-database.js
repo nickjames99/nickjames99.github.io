@@ -311,6 +311,14 @@
   });
 
   dinosaurSelect.addEventListener("change", () => {
+    if (dinosaurSelect.value === "bary") {
+      // Baryonyx does not have a native ISL1 species header yet.
+      // Keep all of its generated codes on the Allosaurus header.
+      speciesSelect.value = "0";
+      setTimeout(rewriteGeneratedHeader, 0);
+      return;
+    }
+
     const matched = Object.values(BY_PREFIX).find(
       species => species.previewId === dinosaurSelect.value
     );
@@ -339,7 +347,6 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
-
 
 
 

@@ -1,6 +1,13 @@
 const dinosaurSelect = document.getElementById("dinoSelect");
 document.getElementById("savePreviewBtn")?.remove();
 
+if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="bary"]')) {
+  const option = document.createElement("option");
+  option.value = "bary";
+  option.textContent = "Baryonyx";
+  dinosaurSelect.querySelector('option[value="allo"]')?.after(option);
+}
+
 const viewerModules = Object.freeze({
   allo: "./dinos/allosaurus-3d-preview.js",
   austro: "./dinos/austroraptor-3d-preview.js",
@@ -23,7 +30,8 @@ const viewerModules = Object.freeze({
   tenonto: "./dinos/tenontosaurus-3d-preview.js",
   trex: "./dinos/tyrannosaurus-3d-preview.js",
   trike: "./dinos/triceratops-3d-preview.js",
-  troodon: "./dinos/troodon-3d-preview.js"
+  troodon: "./dinos/troodon-3d-preview.js",
+  bary: "./dinos/baryonyx-3d-preview.js"
 });
 
 const loadedViewers = new Map();
