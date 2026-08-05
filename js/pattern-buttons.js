@@ -15,6 +15,29 @@
     quetz: new Set(["A"])
   });
   const dinosaurSelect = document.getElementById("dinoSelect");
+  const extendedViewers = Object.freeze({
+    stego: "stegosaurus-extended-3d-preview.js",
+    pachy: "pachycephalosaurus-extended-3d-preview.js",
+    bary: "baryonyx-extended-3d-preview.js"
+  });
+  const loadingExtendedViewers = new Set();
+
+  function loadExtendedViewer() {
+    const species = dinosaurSelect?.value;
+    const filename = extendedViewers[species];
+    if (!filename || loadingExtendedViewers.has(species)) return;
+    loadingExtendedViewers.add(species);
+    const source = new URL(
+      `./js/dinos/${filename}?v=extended-patterns-bypass-1`,
+      document.baseURI
+    ).href;
+    setTimeout(() => {
+      import(source).catch(error => {
+        loadingExtendedViewers.delete(species);
+        console.error(`Unable to load extended ${species} patterns:`, error);
+      });
+    }, 300);
+  }
   const group = document.createElement("div");
   group.className = "pattern-button-group";
   group.setAttribute("role", "group");
@@ -29,7 +52,12 @@
     button.textContent = pattern;
     button.setAttribute("aria-label", `Pattern ${pattern}`);
     button.addEventListener("click", () => {
-      if (button.disabled || select.value === pattern) return;
+      if (button.disabled) return;
+      window.__dinoPreviewPatternOverride = {
+        species: dinosaurSelect?.value,
+        pattern
+      };
+      loadExtendedViewer();
       select.value = pattern;
       select.dispatchEvent(new Event("change", { bubbles: true }));
     });
@@ -126,6 +154,8 @@
 
   select.addEventListener("change", syncButtons);
   dinosaurSelect?.addEventListener("change", () => {
+    window.__dinoPreviewPatternOverride = null;
+    loadExtendedViewer();
     requestAnimationFrame(syncButtons);
     setTimeout(syncButtons, 0);
   });
@@ -137,4 +167,5 @@
   });
 
   syncButtons();
+  loadExtendedViewer();
 })();
