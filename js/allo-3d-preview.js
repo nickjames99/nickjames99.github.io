@@ -62,6 +62,30 @@ if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="quetz"]')) {
   anchor?.after(option);
 }
 
+function sortDinosaurOptions() {
+  if (!dinosaurSelect) return;
+  const current = [...dinosaurSelect.options];
+  const sorted = [...current].sort((first, second) =>
+    first.textContent.trim().localeCompare(
+      second.textContent.trim(),
+      undefined,
+      { sensitivity: "base" }
+    )
+  );
+  if (current.every((option, index) => option === sorted[index])) return;
+  const selectedValue = dinosaurSelect.value;
+  dinosaurSelect.append(...sorted);
+  dinosaurSelect.value = selectedValue;
+}
+
+sortDinosaurOptions();
+
+if (dinosaurSelect) {
+  new MutationObserver(sortDinosaurOptions).observe(dinosaurSelect, {
+    childList: true
+  });
+}
+
 const viewerModules = Object.freeze({
   allo: "./dinos/allosaurus-3d-preview.js",
   austro: "./dinos/austroraptor-3d-preview.js",
@@ -79,13 +103,13 @@ const viewerModules = Object.freeze({
   hypsi: "./dinos/hypsilophodon-3d-preview.js",
   kentro: "./dinos/kentrosaurus-3d-preview.js",
   maia: "./dinos/maiasaura-3d-preview.js",
-  pachy: "./dinos/pachycephalosaurus-3d-preview.js?v=extended-patterns-3",
-  stego: "./dinos/stegosaurus-3d-preview.js?v=extended-patterns-3",
+  pachy: "./dinos/pachycephalosaurus-3d-preview.js",
+  stego: "./dinos/stegosaurus-3d-preview.js",
   tenonto: "./dinos/tenontosaurus-3d-preview.js",
   trex: "./dinos/tyrannosaurus-3d-preview.js",
   trike: "./dinos/triceratops-3d-preview.js",
   troodon: "./dinos/troodon-3d-preview.js",
-  bary: "./dinos/baryonyx-3d-preview.js?v=extended-patterns-3",
+  bary: "./dinos/baryonyx-3d-preview.js",
   ovi: "./dinos/oviraptor-3d-preview.js",
   camara: "./dinos/camarasaurus-3d-preview.js",
   ava: "./dinos/avaceratops-3d-preview.js",
