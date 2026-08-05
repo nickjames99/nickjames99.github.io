@@ -21,11 +21,24 @@
 
   const optionD = ensurePatternOption("D");
   const optionE = ensurePatternOption("E");
+  const optionA = patternSelect.querySelector('option[value="A"]');
+  const optionB = patternSelect.querySelector('option[value="B"]');
+  const optionC = patternSelect.querySelector('option[value="C"]');
 
   function updatePatternAvailability() {
     const speciesId = String(speciesSelect.value);
 
     const previewId = dinosaurSelect?.value;
+    const camarasaurusSelected = previewId === "camara";
+    [optionB, optionC].forEach(option => {
+      if (!option) return;
+      option.disabled = camarasaurusSelected;
+      option.hidden = camarasaurusSelected;
+    });
+    if (optionA) {
+      optionA.disabled = false;
+      optionA.hidden = false;
+    }
     const supportsD = D_SUPPORTED.has(speciesId) || ["austro", "stego", "bary"].includes(previewId);
     const supportsE = E_SUPPORTED.has(speciesId) || ["pachy", "bary"].includes(previewId);
     optionD.disabled = !supportsD;
@@ -34,10 +47,11 @@
     optionE.hidden = !supportsE;
 
     if (
+      camarasaurusSelected && patternSelect.value !== "A" ||
       (patternSelect.value === "D" && !supportsD) ||
       (patternSelect.value === "E" && !supportsE)
     ) {
-      patternSelect.value = "B";
+      patternSelect.value = camarasaurusSelected ? "A" : "B";
       patternSelect.dispatchEvent(new Event("change", { bubbles: true }));
     }
   }
