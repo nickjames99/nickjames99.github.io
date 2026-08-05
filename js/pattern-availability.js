@@ -29,11 +29,11 @@
     const speciesId = String(speciesSelect.value);
 
     const previewId = dinosaurSelect?.value;
-    const camarasaurusSelected = previewId === "camara";
+    const onlyPatternA = ["camara", "ava"].includes(previewId);
     [optionB, optionC].forEach(option => {
       if (!option) return;
-      option.disabled = camarasaurusSelected;
-      option.hidden = camarasaurusSelected;
+      option.disabled = onlyPatternA;
+      option.hidden = onlyPatternA;
     });
     if (optionA) {
       optionA.disabled = false;
@@ -47,11 +47,11 @@
     optionE.hidden = !supportsE;
 
     if (
-      camarasaurusSelected && patternSelect.value !== "A" ||
+      onlyPatternA && patternSelect.value !== "A" ||
       (patternSelect.value === "D" && !supportsD) ||
       (patternSelect.value === "E" && !supportsE)
     ) {
-      patternSelect.value = camarasaurusSelected ? "A" : "B";
+      patternSelect.value = onlyPatternA ? "A" : "B";
       patternSelect.dispatchEvent(new Event("change", { bubbles: true }));
     }
   }
