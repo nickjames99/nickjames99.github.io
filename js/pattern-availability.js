@@ -5,7 +5,7 @@
 
   if (!speciesSelect || !patternSelect) return;
 
-  const D_SUPPORTED = new Set(["2", "9", "12", "13"]);
+  const D_SUPPORTED = new Set(["2", "9", "12", "13", "15"]);
   const E_SUPPORTED = new Set(["12"]);
 
   function updatePatternAvailability() {
