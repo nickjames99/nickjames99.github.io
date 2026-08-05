@@ -8,16 +8,30 @@
   const D_SUPPORTED = new Set(["2", "9", "12", "13", "15"]);
   const E_SUPPORTED = new Set(["12", "13"]);
 
+  function ensurePatternOption(pattern) {
+    let option = patternSelect.querySelector(`option[value="${pattern}"]`);
+    if (!option) {
+      option = document.createElement("option");
+      option.value = pattern;
+      option.textContent = `Pattern ${pattern}`;
+      patternSelect.append(option);
+    }
+    return option;
+  }
+
+  const optionD = ensurePatternOption("D");
+  const optionE = ensurePatternOption("E");
+
   function updatePatternAvailability() {
     const speciesId = String(speciesSelect.value);
-    const optionD = patternSelect.querySelector('option[value="D"]');
-    const optionE = patternSelect.querySelector('option[value="E"]');
 
     const previewId = dinosaurSelect?.value;
     const supportsD = D_SUPPORTED.has(speciesId) || ["austro", "stego", "bary"].includes(previewId);
     const supportsE = E_SUPPORTED.has(speciesId) || ["pachy", "bary"].includes(previewId);
-    if (optionD) optionD.disabled = !supportsD;
-    if (optionE) optionE.disabled = !supportsE;
+    optionD.disabled = !supportsD;
+    optionD.hidden = !supportsD;
+    optionE.disabled = !supportsE;
+    optionE.hidden = !supportsE;
 
     if (
       (patternSelect.value === "D" && !supportsD) ||

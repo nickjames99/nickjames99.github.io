@@ -264,9 +264,11 @@
   function rewriteGeneratedHeader() {
     const species = BY_SPECIES_ID[String(speciesSelect.value)];
     const selectedPattern = patternSelect.value;
+    const previewId = dinosaurSelect.value || species?.previewId;
     const usesPatternCCode =
-      (species.previewId === "stego" && selectedPattern === "D") ||
-      (species.previewId === "pachy" && selectedPattern === "E");
+      (previewId === "stego" && selectedPattern === "D") ||
+      (previewId === "pachy" && selectedPattern === "E") ||
+      (previewId === "bary" && ["D", "E"].includes(selectedPattern));
     const codePattern = usesPatternCCode ? "C" : selectedPattern;
     const pattern = PATTERN_TOKENS[codePattern] || PATTERN_TOKENS.B;
 
@@ -311,7 +313,7 @@
   });
 
   dinosaurSelect.addEventListener("change", () => {
-    if (["austro", "bary"].includes(dinosaurSelect.value)) {
+    if (["austro", "bary", "ovi"].includes(dinosaurSelect.value)) {
       // These preview-only species do not have native ISL1 headers yet.
       // Keep all of their generated codes on the Allosaurus header.
       speciesSelect.value = "0";
@@ -347,8 +349,6 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
-
-
 
 
 

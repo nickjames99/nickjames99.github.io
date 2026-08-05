@@ -18,6 +18,17 @@ if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="bary"]')) {
   anchor?.after(option);
 }
 
+if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="ovi"]')) {
+  const option = document.createElement("option");
+  option.value = "ovi";
+  option.textContent = "Oviraptor";
+  const anchor =
+    dinosaurSelect.querySelector('option[value="bary"]') ||
+    dinosaurSelect.querySelector('option[value="austro"]') ||
+    dinosaurSelect.querySelector('option[value="allo"]');
+  anchor?.after(option);
+}
+
 const viewerModules = Object.freeze({
   allo: "./dinos/allosaurus-3d-preview.js",
   austro: "./dinos/austroraptor-3d-preview.js",
@@ -41,7 +52,8 @@ const viewerModules = Object.freeze({
   trex: "./dinos/tyrannosaurus-3d-preview.js",
   trike: "./dinos/triceratops-3d-preview.js",
   troodon: "./dinos/troodon-3d-preview.js",
-  bary: "./dinos/baryonyx-3d-preview.js"
+  bary: "./dinos/baryonyx-3d-preview.js",
+  ovi: "./dinos/oviraptor-3d-preview.js"
 });
 
 const loadedViewers = new Map();
