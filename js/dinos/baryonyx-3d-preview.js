@@ -143,8 +143,12 @@ if (stage && dinosaurSelect) {
   }
 
   function activeMasks() {
-    const pattern = ["A", "B", "C", "D", "E"].includes(patternSelect?.value)
-      ? patternSelect.value.toLowerCase()
+    const override = window.__dinoPreviewPatternOverride;
+    const selectedPattern = override?.species === dinosaurSelect.value
+      ? override.pattern
+      : patternSelect?.value;
+    const pattern = ["A", "B", "C", "D", "E"].includes(selectedPattern)
+      ? selectedPattern.toLowerCase()
       : "a";
     const sex = sexSelect?.value === "female" ? "female" : "male";
     return {

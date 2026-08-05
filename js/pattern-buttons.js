@@ -29,7 +29,11 @@
     button.textContent = pattern;
     button.setAttribute("aria-label", `Pattern ${pattern}`);
     button.addEventListener("click", () => {
-      if (button.disabled || select.value === pattern) return;
+      if (button.disabled) return;
+      window.__dinoPreviewPatternOverride = {
+        species: dinosaurSelect?.value,
+        pattern
+      };
       select.value = pattern;
       select.dispatchEvent(new Event("change", { bubbles: true }));
     });
@@ -126,6 +130,7 @@
 
   select.addEventListener("change", syncButtons);
   dinosaurSelect?.addEventListener("change", () => {
+    window.__dinoPreviewPatternOverride = null;
     requestAnimationFrame(syncButtons);
     setTimeout(syncButtons, 0);
   });

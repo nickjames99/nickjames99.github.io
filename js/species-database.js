@@ -263,7 +263,10 @@
 
   function rewriteGeneratedHeader() {
     const species = BY_SPECIES_ID[String(speciesSelect.value)];
-    const selectedPattern = patternSelect.value;
+    const override = window.__dinoPreviewPatternOverride;
+    const selectedPattern = override?.species === dinosaurSelect.value
+      ? override.pattern
+      : patternSelect.value;
     const previewId = dinosaurSelect.value || species?.previewId;
     const usesPatternCCode =
       (previewId === "stego" && selectedPattern === "D") ||
@@ -349,7 +352,6 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
-
 
 
 
