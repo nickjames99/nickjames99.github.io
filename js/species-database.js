@@ -353,6 +353,39 @@
   window.detectIsleSpeciesPattern = readHeader;
 })();
 
+(() => {
+  const dinosaurSelect = document.getElementById("dinoSelect");
+  const patternSelect = document.getElementById("patternSelect");
+  const badge = document.getElementById("previewSpeciesBadge");
+  const note = document.getElementById("previewPatternNote");
+
+  if (!dinosaurSelect || !patternSelect || (!badge && !note)) return;
+
+  function updatePreviewLabels() {
+    const species = dinosaurSelect.selectedOptions[0]?.textContent.trim() ||
+      dinosaurSelect.value;
+    const override = window.__dinoPreviewPatternOverride;
+    const pattern = override?.species === dinosaurSelect.value
+      ? override.pattern
+      : patternSelect.value;
+
+    if (badge) badge.textContent = `${species.toUpperCase()} · PATTERN ${pattern}`;
+    if (note) note.textContent = `Pattern ${pattern}`;
+  }
+
+  dinosaurSelect.addEventListener("change", () => {
+    requestAnimationFrame(updatePreviewLabels);
+    setTimeout(updatePreviewLabels, 0);
+  });
+  patternSelect.addEventListener("change", updatePreviewLabels);
+
+  new MutationObserver(updatePreviewLabels).observe(dinosaurSelect, {
+    childList: true,
+    subtree: true
+  });
+
+  updatePreviewLabels();
+})();
 
 
 
