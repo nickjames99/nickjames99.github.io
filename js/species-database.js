@@ -263,7 +263,12 @@
 
   function rewriteGeneratedHeader() {
     const species = BY_SPECIES_ID[String(speciesSelect.value)];
-    const pattern = PATTERN_TOKENS[patternSelect.value] || PATTERN_TOKENS.B;
+    const selectedPattern = patternSelect.value;
+    const usesPatternCCode =
+      (species.previewId === "stego" && selectedPattern === "D") ||
+      (species.previewId === "pachy" && selectedPattern === "E");
+    const codePattern = usesPatternCCode ? "C" : selectedPattern;
+    const pattern = PATTERN_TOKENS[codePattern] || PATTERN_TOKENS.B;
 
     if (!species) return;
 

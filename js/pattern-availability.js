@@ -13,13 +13,15 @@
     const optionD = patternSelect.querySelector('option[value="D"]');
     const optionE = patternSelect.querySelector('option[value="E"]');
 
-    const supportsD = D_SUPPORTED.has(speciesId) || dinosaurSelect?.value === "austro";
+    const previewId = dinosaurSelect?.value;
+    const supportsD = D_SUPPORTED.has(speciesId) || ["austro", "stego"].includes(previewId);
+    const supportsE = E_SUPPORTED.has(speciesId) || previewId === "pachy";
     if (optionD) optionD.disabled = !supportsD;
-    if (optionE) optionE.disabled = !E_SUPPORTED.has(speciesId);
+    if (optionE) optionE.disabled = !supportsE;
 
     if (
       (patternSelect.value === "D" && !supportsD) ||
-      (patternSelect.value === "E" && !E_SUPPORTED.has(speciesId))
+      (patternSelect.value === "E" && !supportsE)
     ) {
       patternSelect.value = "B";
       patternSelect.dispatchEvent(new Event("change", { bubbles: true }));

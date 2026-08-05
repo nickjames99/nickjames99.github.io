@@ -118,7 +118,7 @@ if (stage && dinosaurSelect) {
   async function loadMasks() {
     const textureLoader = new THREE.TextureLoader();
     const tasks = [];
-    ["a", "b", "c"].forEach(pattern => {
+    ["a", "b", "c", "d"].forEach(pattern => {
       ["male", "female"].forEach(sex => {
         [1, 2].forEach(set => {
           const key = `${pattern}-${sex}-${set}`;
@@ -142,7 +142,7 @@ if (stage && dinosaurSelect) {
   }
 
   function activeMasks() {
-    const pattern = ["A", "B", "C"].includes(patternSelect?.value)
+    const pattern = ["A", "B", "C", "D"].includes(patternSelect?.value)
       ? patternSelect.value.toLowerCase()
       : "a";
     const sex = sexSelect?.value === "female" ? "female" : "male";
