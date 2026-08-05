@@ -1,4 +1,5 @@
 const dinosaurSelect = document.getElementById("dinoSelect");
+document.getElementById("savePreviewBtn")?.remove();
 
 const viewerModules = Object.freeze({
   allo: "./dinos/allosaurus-3d-preview.js",
