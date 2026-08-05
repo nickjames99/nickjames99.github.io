@@ -9,6 +9,7 @@ const sexSelect = document.getElementById("sexSelect");
 const pickerContainer = document.getElementById("pickers");
 
 if (stage && dinosaurSelect) {
+  document.getElementById("stego3dPreviewHost")?.remove();
   // Stegosaurus is 3D-only. The shadow root prevents legacy preview code
   // from finding or restyling its WebGL canvas.
   document.getElementById("stegoPreview")?.remove();
