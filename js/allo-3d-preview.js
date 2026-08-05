@@ -20,7 +20,8 @@ const viewerModules = Object.freeze({
   maia: "./dinos/maiasaura-3d-preview.js",
   pachy: "./dinos/pachycephalosaurus-3d-preview.js",
   stego: "./dinos/stegosaurus-3d-preview.js",
-  tenonto: "./dinos/tenontosaurus-3d-preview.js"
+  tenonto: "./dinos/tenontosaurus-3d-preview.js",
+  trex: "./dinos/tyrannosaurus-3d-preview.js"
 });
 
 const loadedViewers = new Map();
