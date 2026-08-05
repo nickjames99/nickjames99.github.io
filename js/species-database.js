@@ -311,9 +311,9 @@
   });
 
   dinosaurSelect.addEventListener("change", () => {
-    if (dinosaurSelect.value === "bary") {
-      // Baryonyx does not have a native ISL1 species header yet.
-      // Keep all of its generated codes on the Allosaurus header.
+    if (["austro", "bary"].includes(dinosaurSelect.value)) {
+      // These preview-only species do not have native ISL1 headers yet.
+      // Keep all of their generated codes on the Allosaurus header.
       speciesSelect.value = "0";
       setTimeout(rewriteGeneratedHeader, 0);
       return;
@@ -347,7 +347,6 @@
   window.ISLE_PATTERN_TOKENS = Object.freeze(PATTERN_TOKENS);
   window.detectIsleSpeciesPattern = readHeader;
 })();
-
 
 
 

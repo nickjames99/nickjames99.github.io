@@ -1,11 +1,21 @@
 const dinosaurSelect = document.getElementById("dinoSelect");
 document.getElementById("savePreviewBtn")?.remove();
 
+if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="austro"]')) {
+  const option = document.createElement("option");
+  option.value = "austro";
+  option.textContent = "Austroraptor";
+  dinosaurSelect.querySelector('option[value="allo"]')?.after(option);
+}
+
 if (dinosaurSelect && !dinosaurSelect.querySelector('option[value="bary"]')) {
   const option = document.createElement("option");
   option.value = "bary";
   option.textContent = "Baryonyx";
-  dinosaurSelect.querySelector('option[value="allo"]')?.after(option);
+  const anchor =
+    dinosaurSelect.querySelector('option[value="austro"]') ||
+    dinosaurSelect.querySelector('option[value="allo"]');
+  anchor?.after(option);
 }
 
 const viewerModules = Object.freeze({
