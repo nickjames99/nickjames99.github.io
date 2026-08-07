@@ -118,7 +118,7 @@ if (stage && dinosaurSelect) {
   async function loadMasks() {
     const textureLoader = new THREE.TextureLoader();
     const tasks = [];
-    ["a", "b", "c"].forEach(pattern => {
+    ["a", "b", "c", "d"].forEach(pattern => {
       ["male", "female"].forEach(sex => {
         [1, 2].forEach(set => {
           const key = `${pattern}-${sex}-${set}`;
@@ -142,8 +142,12 @@ if (stage && dinosaurSelect) {
   }
 
   function activeMasks() {
-    const pattern = ["A", "B", "C"].includes(patternSelect?.value)
-      ? patternSelect.value.toLowerCase()
+    const override = window.__dinoPreviewPatternOverride;
+    const selectedPattern = override?.species === dinosaurSelect?.value
+      ? override.pattern
+      : patternSelect?.value;
+    const pattern = ["A", "B", "C", "D"].includes(selectedPattern)
+      ? selectedPattern.toLowerCase()
       : "a";
     const sex = sexSelect?.value === "female" ? "female" : "male";
     return {
@@ -162,6 +166,7 @@ if (stage && dinosaurSelect) {
       bodyShader.uniforms.alloDominant.value.copy(colors.dominant);
       bodyShader.uniforms.alloMarkings.value.copy(colors.markings);
       bodyShader.uniforms.alloFlank.value.copy(colors.flank);
+      bodyShader.uniforms.alloDetail.value.copy(colors.detail);
       bodyShader.uniforms.alloBody.value.copy(colors.body);
       bodyShader.uniforms.alloUnderside.value.copy(colors.underside);
     });
@@ -189,6 +194,7 @@ if (stage && dinosaurSelect) {
       shader.uniforms.alloDominant = { value: colors.dominant.clone() };
       shader.uniforms.alloMarkings = { value: colors.markings.clone() };
       shader.uniforms.alloFlank = { value: colors.flank.clone() };
+      shader.uniforms.alloDetail = { value: colors.detail.clone() };
       shader.uniforms.alloBody = { value: colors.body.clone() };
       shader.uniforms.alloUnderside = { value: colors.underside.clone() };
       shader.fragmentShader = `
@@ -197,6 +203,7 @@ if (stage && dinosaurSelect) {
         uniform vec3 alloDominant;
         uniform vec3 alloMarkings;
         uniform vec3 alloFlank;
+        uniform vec3 alloDetail;
         uniform vec3 alloBody;
         uniform vec3 alloUnderside;
       ` + shader.fragmentShader;
@@ -208,6 +215,7 @@ if (stage && dinosaurSelect) {
         vec3 alloTint = alloBody;
         alloTint = mix( alloTint, alloUnderside, smoothstep( 0.02, 0.98, alloChannels2.g ) );
         alloTint = mix( alloTint, alloFlank, smoothstep( 0.02, 0.98, alloChannels1.b ) );
+        alloTint = mix( alloTint, alloDetail, smoothstep( 0.02, 0.98, alloChannels2.b ) );
         alloTint = mix( alloTint, alloMarkings, smoothstep( 0.02, 0.98, alloChannels1.g ) );
         alloTint = mix( alloTint, alloDominant, smoothstep( 0.02, 0.98, alloChannels1.r ) );
         float alloShade = clamp(
@@ -220,7 +228,7 @@ if (stage && dinosaurSelect) {
       bodyShaders.push(shader);
       updateLiveMaterial();
     };
-    material.customProgramCacheKey = () => "tyrannosaurus-original-layer-masks-v1";
+    material.customProgramCacheKey = () => "tyrannosaurus-original-layer-masks-v2";
     material.color.set(0xffffff);
     material.needsUpdate = true;
   }

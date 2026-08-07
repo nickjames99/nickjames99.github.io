@@ -2,7 +2,7 @@
   const select = document.getElementById("patternSelect");
   if (!select) return;
 
-  const patterns = ["A", "B", "C", "D", "E"];
+  const patterns = ["A", "B", "C", "D", "E", "F"];
   const forcedPatterns = Object.freeze({
     stego: new Set(["A", "B", "C", "D"]),
     stegosaurus: new Set(["A", "B", "C", "D"]),
@@ -10,6 +10,10 @@
     pachycephalosaurus: new Set(["A", "B", "C", "D", "E"]),
     bary: new Set(["A", "B", "C", "D", "E"]),
     baryonyx: new Set(["A", "B", "C", "D", "E"]),
+    trex: new Set(["A", "B", "C", "D"]),
+    tyrannosaurus: new Set(["A", "B", "C", "D"]),
+    trike: new Set(["A", "B", "C", "D", "E", "F"]),
+    triceratops: new Set(["A", "B", "C", "D", "E", "F"]),
     camara: new Set(["A"]),
     ava: new Set(["A"]),
     quetz: new Set(["A"])

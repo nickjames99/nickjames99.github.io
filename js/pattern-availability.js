@@ -21,6 +21,7 @@
 
   const optionD = ensurePatternOption("D");
   const optionE = ensurePatternOption("E");
+  const optionF = ensurePatternOption("F");
   const optionA = patternSelect.querySelector('option[value="A"]');
   const optionB = patternSelect.querySelector('option[value="B"]');
   const optionC = patternSelect.querySelector('option[value="C"]');
@@ -39,17 +40,21 @@
       optionA.disabled = false;
       optionA.hidden = false;
     }
-    const supportsD = D_SUPPORTED.has(speciesId) || ["austro", "stego", "bary"].includes(previewId);
-    const supportsE = E_SUPPORTED.has(speciesId) || ["pachy", "bary"].includes(previewId);
+    const supportsD = D_SUPPORTED.has(speciesId) || ["austro", "stego", "bary", "trex", "trike"].includes(previewId);
+    const supportsE = E_SUPPORTED.has(speciesId) || ["pachy", "bary", "trike"].includes(previewId);
+    const supportsF = previewId === "trike";
     optionD.disabled = !supportsD;
     optionD.hidden = !supportsD;
     optionE.disabled = !supportsE;
     optionE.hidden = !supportsE;
+    optionF.disabled = !supportsF;
+    optionF.hidden = !supportsF;
 
     if (
       onlyPatternA && patternSelect.value !== "A" ||
       (patternSelect.value === "D" && !supportsD) ||
-      (patternSelect.value === "E" && !supportsE)
+      (patternSelect.value === "E" && !supportsE) ||
+      (patternSelect.value === "F" && !supportsF)
     ) {
       patternSelect.value = onlyPatternA ? "A" : "B";
       patternSelect.dispatchEvent(new Event("change", { bubbles: true }));

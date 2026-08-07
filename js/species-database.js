@@ -271,7 +271,9 @@
     const usesPatternCCode =
       (previewId === "stego" && selectedPattern === "D") ||
       (previewId === "pachy" && selectedPattern === "E") ||
-      (previewId === "bary" && ["D", "E"].includes(selectedPattern));
+      (previewId === "bary" && ["D", "E"].includes(selectedPattern)) ||
+      (previewId === "trex" && selectedPattern === "D") ||
+      (previewId === "trike" && ["D", "E", "F"].includes(selectedPattern));
     const codePattern = usesPatternCCode ? "C" : selectedPattern;
     const pattern = PATTERN_TOKENS[codePattern] || PATTERN_TOKENS.B;
 
@@ -386,7 +388,6 @@
 
   updatePreviewLabels();
 })();
-
 
 
 
